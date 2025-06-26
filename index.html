@@ -11,249 +11,365 @@
             font-family: 'Inter', sans-serif;
         }
         .table-container {
-            height: 280px; /* Fixed height for the table containers */
+            height: 320px; 
             overflow-y: auto;
+        }
+        .shipping-label {
+            min-height: 150px;
         }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 flex">
 
     <!-- Navigation Rail -->
-    <aside class="w-20 md:w-64 bg-white shadow-md flex-shrink-0">
-        <div class="p-4 border-b">
-            <h2 class="text-xl font-bold text-indigo-700 hidden md:block">Use Cases</h2>
-            <h2 class="text-xl font-bold text-indigo-700 text-center md:hidden">PDV</h2>
+    <aside class="w-24 bg-white shadow-md flex-shrink-0 flex flex-col items-center">
+        <div class="h-16 flex items-center justify-center">
+            <h2 class="text-xl font-bold text-indigo-700">PDV</h2>
         </div>
-        <nav class="p-2 space-y-2">
-            <a href="#" class="flex items-center p-3 rounded-lg bg-indigo-100 text-indigo-700 font-semibold">
-                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                <span class="hidden md:block">Checkout Demo</span>
+        <nav id="nav-rail" class="w-full flex flex-col items-center p-2 space-y-2">
+            <!-- Navigation Item 1: Checkout -->
+            <a href="#" id="nav-checkout" class="nav-item flex flex-col items-center justify-center p-2 w-full rounded-lg" aria-current="page">
+                <div class="icon-container flex items-center justify-center w-16 h-8 rounded-full bg-indigo-100 text-indigo-700">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                </div>
+                <span class="label text-xs mt-1 font-semibold text-indigo-700">Checkout</span>
             </a>
-            <a href="#" class="flex items-center p-3 rounded-lg text-gray-600 hover:bg-gray-200">
-                 <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                <span class="hidden md:block">Profile Management</span>
+            <!-- Navigation Item 2: Fulfillment -->
+            <a href="#" id="nav-fulfillment" class="nav-item flex flex-col items-center justify-center p-2 w-full rounded-lg hover:bg-gray-100">
+                 <div class="icon-container flex items-center justify-center w-16 h-8 rounded-full text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <span class="label text-xs mt-1 text-gray-700">Fulfillment</span>
             </a>
         </nav>
     </aside>
 
     <!-- Main Content -->
     <main class="flex-1">
-        <div class="container mx-auto p-4 md:p-8">
-            <header class="text-center mb-10">
-                <h1 class="text-4xl font-bold text-gray-900">Personal Data Vault</h1>
-                <p class="text-lg text-gray-600 mt-2">Demonstrating Secure PII Tokenization</p>
-            </header>
+        <!-- View 1: Checkout Demo -->
+        <div id="checkout-view" class="view-container">
+            <div class="container mx-auto p-4 md:p-8">
+                <header class="text-center mb-10">
+                    <h1 class="text-4xl font-bold text-gray-900">Personal Data Vault</h1>
+                    <p class="text-lg text-gray-600 mt-2">Use Case 1: Tokenization at Checkout</p>
+                </header>
 
-            <div class="flex flex-col md:flex-row gap-8">
-                
-                <!-- Left Column: Use Case Panel -->
-                <div class="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-lg">
-                    <h2 class="text-2xl font-semibold mb-6 text-center border-b pb-4">Checkout Demo</h2>
-                    
-                    <!-- Account Selector -->
-                    <div class="mb-6">
-                        <label for="account-selector" class="block text-sm font-medium text-gray-700 mb-2">Select Store (Account):</label>
-                        <select id="account-selector" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="FashionA">FashionA</option>
-                            <option value="FashionB">FashionB</option>
-                        </select>
-                    </div>
-
-                    <!-- Product Listing -->
-                    <div class="mb-6 border-t border-b py-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Your Cart</h3>
-                        <div class="space-y-4">
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">White T-Shirt</span>
-                                <span class="font-medium">$25.00</span>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <span class="text-gray-600">Pair of Socks</span>
-                                <span class="font-medium">$8.00</span>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Left Panel: Use Case -->
+                    <div class="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-lg">
+                        <h2 class="text-2xl font-semibold mb-6 text-center border-b pb-4">Checkout Form</h2>
+                        <div class="mb-6">
+                            <label for="account-selector" class="block text-sm font-medium text-gray-700 mb-2">Select Store (Account):</label>
+                            <select id="account-selector" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                                <option value="FashionA">FashionA</option>
+                                <option value="FashionB">FashionB</option>
+                            </select>
+                        </div>
+                        <div class="mb-6 border-t border-b py-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4">Your Cart</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center"><span class="text-gray-600">White T-Shirt</span><span class="font-medium">$25.00</span></div>
+                                <div class="flex justify-between items-center"><span class="text-gray-600">Pair of Socks</span><span class="font-medium">$8.00</span></div>
                             </div>
                         </div>
+                        <form id="checkout-form" class="space-y-6">
+                            <div><label for="name" class="block text-sm font-medium text-gray-700">Full Name</label><input type="text" id="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="Jane Doe" required></div>
+                            <div><label for="email" class="block text-sm font-medium text-gray-700">Email Address</label><input type="email" id="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="jane.doe@example.com" required></div>
+                            <div><label for="address" class="block text-sm font-medium text-gray-700">Shipping Address</label><input type="text" id="address" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" placeholder="123 Main St, Anytown, USA" required></div>
+                            <div><label for="credit-card" class="block text-sm font-medium text-gray-700">Credit Card</label><input type="text" id="credit-card" class="mt-1 block w-full px-3 py-2 bg-gray-200 border-gray-300 rounded-md" value="**** **** **** 4242" disabled></div>
+                            <div class="border-t pt-6"><div class="flex justify-between items-center text-lg font-semibold"><span>Total Price:</span><span>$33.00</span></div></div>
+                            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700">Complete Purchase</button>
+                        </form>
                     </div>
-
-                    <form id="checkout-form" class="space-y-6">
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                            <input type="text" id="name" name="name" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="Jane Doe" required>
+                    <!-- Right Panel: Data Flow -->
+                    <div class="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-lg">
+                        <div class="flex justify-between items-center mb-4 border-b pb-4">
+                             <h2 class="text-2xl font-semibold">Data Flow Visualization</h2>
+                             <button id="seed-data-btn-checkout" class="seed-data-btn bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 text-sm">Seed Dummy Data</button>
+                        </div>
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold mb-3 text-indigo-700">1. Personal Data Vault</h3>
+                            <p class="text-sm text-gray-600 mb-3">Securely stores raw PII mapped to a generated token.</p>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Token</th></tr></thead><tbody id="vault-db-checkout" class="bg-white divide-y"></tbody></table></div>
                         </div>
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                            <input type="email" id="email" name="email" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="jane.doe@example.com" required>
-                        </div>
-                        <div>
-                            <label for="address" class="block text-sm font-medium text-gray-700">Shipping Address</label>
-                            <input type="text" id="address" name="address" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" placeholder="123 Main St, Anytown, USA" required>
-                        </div>
-                        <div>
-                            <label for="credit-card" class="block text-sm font-medium text-gray-700">Credit Card Number</label>
-                            <input type="text" id="credit-card" name="credit-card" class="mt-1 block w-full px-3 py-2 bg-gray-200 border border-gray-300 rounded-md shadow-sm" value="**** **** **** 4242" disabled>
-                        </div>
-                        <div class="border-t pt-6">
-                            <div class="flex justify-between items-center text-lg font-semibold">
-                                <span>Total Price:</span>
-                                <span>$33.00</span>
-                            </div>
-                        </div>
-                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
-                            Complete Purchase
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Right Column: Data Visualization -->
-                <div class="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-lg">
-                    <h2 class="text-2xl font-semibold mb-4 text-center border-b pb-4">Data Flow Visualization</h2>
-                    
-                    <!-- Personal Data Vault Table -->
-                    <div class="mb-8">
-                        <h3 class="text-xl font-semibold mb-3 text-indigo-700">1. Personal Data Vault</h3>
-                        <p class="text-sm text-gray-600 mb-3">Securely stores a map of raw PII to a generated token. Access is highly restricted.</p>
-                        <div class="table-container border border-gray-200 rounded-lg">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50 sticky top-0">
-                                    <tr>
-                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store</th>
-                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Data Subject</th>
-                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Raw Data</th>
-                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Generated Token</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="vault-db" class="bg-white divide-y divide-gray-200">
-                                    <!-- Vault data will be injected here -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Orders Database Table -->
-                    <div>
-                        <h3 class="text-xl font-semibold mb-3 text-teal-700">2. Orders Database</h3>
-                        <p class="text-sm text-gray-600 mb-3">Stores order information using tokens instead of raw PII, minimizing data exposure.</p>
-                         <div class="table-container border border-gray-200 rounded-lg">
-                            <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50 sticky top-0">
-                                    <tr>
-                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
-                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store</th>
-                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Items</th>
-                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                        <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ship to Address</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="orders-db" class="bg-white divide-y divide-gray-200">
-                                    <!-- Orders data will be injected here -->
-                                </tbody>
-                            </table>
+                            <h3 class="text-xl font-semibold mb-3 text-teal-700">2. Orders Database</h3>
+                            <p class="text-sm text-gray-600 mb-3">Stores order info using tokens, minimizing data exposure.</p>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th></tr></thead><tbody id="orders-db-checkout" class="bg-white divide-y"></tbody></table></div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
+        <!-- View 2: Order Fulfillment Demo -->
+        <div id="fulfillment-view" class="view-container hidden">
+             <div class="container mx-auto p-4 md:p-8">
+                <header class="text-center mb-10">
+                    <h1 class="text-4xl font-bold text-gray-900">Personal Data Vault</h1>
+                    <p class="text-lg text-gray-600 mt-2">Use Case 2: Detokenization for Order Fulfillment</p>
+                </header>
+
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Left Panel: Use Case -->
+                    <div class="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-lg">
+                        <h2 class="text-2xl font-semibold mb-4 text-center border-b pb-4">Fulfillment Dashboard</h2>
+                        <p class="text-sm text-gray-600 mb-3">Click "Create Shipping Label" to securely retrieve the customer's real name and address for shipping by detokenizing the required PII.</p>
+                        <div class="table-container border rounded-lg mb-6">
+                             <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50 sticky top-0">
+                                    <tr>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Order ID</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Store</th>
+                                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="fulfillment-orders-db" class="bg-white divide-y divide-gray-200"></tbody>
+                            </table>
+                        </div>
+                         <h3 class="text-xl font-semibold mb-3">Generated Shipping Label</h3>
+                         <div id="shipping-label" class="shipping-label border-2 border-dashed rounded-lg flex items-center justify-center p-4 bg-gray-50">
+                            <span class="text-gray-500">Select an order to generate a label</span>
+                         </div>
+                    </div>
+                    <!-- Right Panel: Data Flow -->
+                    <div class="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-lg">
+                        <div class="flex justify-between items-center mb-4 border-b pb-4">
+                             <h2 class="text-2xl font-semibold">Data Flow Visualization</h2>
+                             <button id="seed-data-btn-fulfillment" class="seed-data-btn bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 text-sm">Seed Dummy Data</button>
+                        </div>
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold mb-3 text-indigo-700">1. Personal Data Vault</h3>
+                            <p class="text-sm text-gray-600 mb-3">The fulfillment system requests to open tokens for the Name and Address to create the shipping label.</p>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Token</th></tr></thead><tbody id="vault-db-fulfillment" class="bg-white divide-y"></tbody></table></div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-teal-700">2. Orders Database</h3>
+                            <p class="text-sm text-gray-600 mb-3">The system's own database only contains tokenized information.</p>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th><th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Address</th></tr></thead><tbody id="orders-db-fulfillment" class="bg-white divide-y"></tbody></table></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
     <script>
+        // --- Application State ---
+        let vaultData = [];
+        let ordersData = [];
+
         // --- DOM Element Selection ---
+        const navRail = document.getElementById('nav-rail');
+        const checkoutView = document.getElementById('checkout-view');
+        const fulfillmentView = document.getElementById('fulfillment-view');
+        
+        // Checkout View Elements
         const checkoutForm = document.getElementById('checkout-form');
-        const vaultDbBody = document.getElementById('vault-db');
-        const ordersDbBody = document.getElementById('orders-db');
+        const vaultDbBodyCheckout = document.getElementById('vault-db-checkout');
+        const ordersDbBodyCheckout = document.getElementById('orders-db-checkout');
         const accountSelector = document.getElementById('account-selector');
 
-        // --- Event Listener for Form Submission ---
-        checkoutForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
+        // Fulfillment View Elements
+        const fulfillmentOrdersDbBody = document.getElementById('fulfillment-orders-db');
+        const shippingLabel = document.getElementById('shipping-label');
+        const vaultDbBodyFulfillment = document.getElementById('vault-db-fulfillment');
+        const ordersDbBodyFulfillment = document.getElementById('orders-db-fulfillment');
 
-            // --- 1. Get Context and User Input ---
+
+        // --- Navigation Logic ---
+        navRail.addEventListener('click', (event) => {
+            const targetNavItem = event.target.closest('.nav-item');
+            if (!targetNavItem) return;
+
+            // Update nav item styles
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.querySelector('.icon-container').classList.remove('bg-indigo-100', 'text-indigo-700');
+                item.querySelector('.icon-container').classList.add('text-gray-600');
+                item.querySelector('.label').classList.remove('font-semibold', 'text-indigo-700');
+                item.querySelector('.label').classList.add('text-gray-700');
+            });
+            targetNavItem.querySelector('.icon-container').classList.add('bg-indigo-100', 'text-indigo-700');
+            targetNavItem.querySelector('.label').classList.add('font-semibold', 'text-indigo-700');
+
+            // Switch views
+            checkoutView.classList.toggle('hidden', targetNavItem.id !== 'nav-checkout');
+            fulfillmentView.classList.toggle('hidden', targetNavItem.id !== 'nav-fulfillment');
+
+            // Render the correct view
+            if (targetNavItem.id === 'nav-checkout') {
+                renderCheckoutView();
+            } else {
+                renderFulfillmentView();
+            }
+        });
+
+        // --- Hashing Function ---
+        function generateSimpleHash(str, dataSubject, account) {
+            const combinedString = `${str}::${dataSubject}::${account}`;
+            let hash = 0;
+            for (let i = 0; i < combinedString.length; i++) {
+                hash = ((hash << 5) - hash) + combinedString.charCodeAt(i);
+                hash |= 0;
+            }
+            return `pdv_${Math.abs(hash).toString(16).slice(0, 8)}`;
+        }
+        
+        // --- Data Rendering Functions ---
+        function renderTable(tbodyElement, data, rowRenderer) {
+            tbodyElement.innerHTML = '';
+            data.forEach(item => {
+                const row = rowRenderer(item);
+                tbodyElement.appendChild(row);
+            });
+        }
+
+        // --- Checkout View Logic ---
+        function renderCheckoutView() {
+            renderTable(vaultDbBodyCheckout, vaultData, createVaultRow);
+            renderTable(ordersDbBodyCheckout, ordersData, createOrderRow);
+        }
+
+        checkoutForm.addEventListener('submit', function(event) {
+            event.preventDefault();
             const account = accountSelector.value;
             const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value; // This is our Data Subject
+            const email = document.getElementById('email').value;
             const address = document.getElementById('address').value;
 
-            // Simple validation
-            if (!name || !email || !address) {
-                console.error("Please fill out all fields.");
-                return; 
-            }
+            if (!name || !email || !address) { return; }
 
-            // --- 2. Simulate Context-Aware Tokenization ---
             const nameToken = generateSimpleHash(name, email, account);
             const emailToken = generateSimpleHash(email, email, account);
             const addressToken = generateSimpleHash(address, email, account);
-
-            // --- 3. Update the Personal Data Vault Table ---
-            addVaultRow(account, email, name, nameToken);
-            addVaultRow(account, email, email, emailToken);
-            addVaultRow(account, email, address, addressToken);
-
-            // --- 4. Update the Orders Database Table ---
             const orderId = `ORD-${Date.now().toString().slice(-6)}`;
-            const itemIds = ['t-shirt-white', 'socks-pair'];
 
-            const newOrderRow = document.createElement('tr');
-            newOrderRow.innerHTML = `
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">${orderId}</td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">${account}</td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">${itemIds.join(', ')}</td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-green-600 font-mono">${nameToken}</td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-green-600 font-mono">${emailToken}</td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-green-600 font-mono">${addressToken}</td>
-            `;
-            ordersDbBody.appendChild(newOrderRow);
+            vaultData.push({ store: account, dataSubject: email, rawData: name, token: nameToken });
+            vaultData.push({ store: account, dataSubject: email, rawData: email, token: emailToken });
+            vaultData.push({ store: account, dataSubject: email, rawData: address, token: addressToken });
             
-            // Animate the new row
-            newOrderRow.classList.add('animate-pulse');
-            setTimeout(() => newOrderRow.classList.remove('animate-pulse'), 1500);
+            ordersData.push({ orderId, store: account, items: ['t-shirt-white', 'socks-pair'], nameToken, emailToken, addressToken });
 
-            // --- 5. Reset the Form ---
+            renderCheckoutView();
             checkoutForm.reset();
         });
 
-        /**
-         * Helper function to add a new row to the Vault table.
-         * @param {string} account - The context of the operation (e.g., store name).
-         * @param {string} dataSubject - The identifier for the data owner (e.g., email).
-         * @param {string} rawData - The original, sensitive data.
-         * @param {string} token - The generated token.
-         */
-        function addVaultRow(account, dataSubject, rawData, token) {
+        function createVaultRow({ store, dataSubject, rawData, token }) {
             const newRow = document.createElement('tr');
-            newRow.innerHTML = `
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">${account}</td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">${dataSubject}</td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">${rawData}</td>
-                <td class="px-4 py-3 whitespace-nowrap text-sm text-red-600 font-mono">${token}</td>
-            `;
-            vaultDbBody.appendChild(newRow);
-            
-            newRow.classList.add('animate-pulse');
-            setTimeout(() => newRow.classList.remove('animate-pulse'), 1500);
+            newRow.dataset.token = token;
+            newRow.className = 'transition-all duration-300 ease-in-out';
+            newRow.innerHTML = `<td class="px-4 py-3 text-sm">${store}</td><td class="px-4 py-3 text-sm">${dataSubject}</td><td class="px-4 py-3 text-sm">${rawData}</td><td class="px-4 py-3 text-sm text-red-600 font-mono">${token}</td>`;
+            return newRow;
         }
 
-        /**
-         * Generates a simple, non-secure hash from a string and its context.
-         * The function now adds the 'pdv_' prefix internally.
-         * @param {string} str - The input string (the raw PII).
-         * @param {string} dataSubject - The identifier for the data owner (e.g., email).
-         * @param {string} account - The context of the operation (e.g., store name).
-         * @returns {string} A short hash-like string with a 'pdv_' prefix.
-         */
-        function generateSimpleHash(str, dataSubject, account) {
-            // Combine the raw data with its context to create a unique input for the hash.
-            const combinedString = `${str}::${dataSubject}::${account}`;
-            
-            let hash = 0;
-            for (let i = 0; i < combinedString.length; i++) {
-                const char = combinedString.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash |= 0; // Convert to 32bit integer
-            }
-            const hashValue = Math.abs(hash).toString(16).slice(0, 8);
-            return `pdv_${hashValue}`;
+        function createOrderRow({ orderId, store, items, nameToken, emailToken, addressToken }) {
+            const newRow = document.createElement('tr');
+            newRow.dataset.orderId = orderId;
+            newRow.className = 'transition-all duration-300 ease-in-out';
+            newRow.innerHTML = `<td class="px-4 py-3 text-sm">${orderId}</td><td class="px-4 py-3 text-sm">${store}</td><td class="px-4 py-3 text-sm">${items.join(', ')}</td><td class="px-4 py-3 text-sm text-green-600 font-mono">${nameToken}</td><td class="px-4 py-3 text-sm text-green-600 font-mono">${emailToken}</td><td class="px-4 py-3 text-sm text-green-600 font-mono">${addressToken}</td>`;
+            return newRow;
         }
+
+        // --- Fulfillment Logic ---
+        function renderFulfillmentView() {
+            renderTable(vaultDbBodyFulfillment, vaultData, createVaultRow);
+            renderTable(ordersDbBodyFulfillment, ordersData, createOrderRow);
+            
+            fulfillmentOrdersDbBody.innerHTML = '';
+            shippingLabel.innerHTML = '<span class="text-gray-500">Select an order to generate a label</span>';
+            if (ordersData.length === 0) {
+                fulfillmentOrdersDbBody.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-gray-500">No orders placed yet. Go to the Checkout demo or seed data.</td></tr>';
+                return;
+            }
+            ordersData.forEach(order => {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `<td class="px-4 py-3 text-sm">${order.orderId}</td><td class="px-4 py-3 text-sm">${order.store}</td><td class="px-4 py-3 text-sm"><button data-order-id="${order.orderId}" class="create-label-btn bg-teal-500 text-white px-3 py-1 rounded hover:bg-teal-600">Create Shipping Label</button></td>`;
+                fulfillmentOrdersDbBody.appendChild(newRow);
+            });
+        }
+        
+        fulfillmentOrdersDbBody.addEventListener('click', (event) => {
+            if (!event.target.classList.contains('create-label-btn')) return;
+
+            const orderId = event.target.dataset.orderId;
+            const order = ordersData.find(o => o.orderId === orderId);
+            const tokensToHighlight = [order.nameToken, order.addressToken];
+
+            // Update highlighting for all Vault rows
+            vaultDbBodyFulfillment.querySelectorAll('tr').forEach(row => {
+                if (tokensToHighlight.includes(row.dataset.token)) {
+                    row.classList.remove('opacity-20');
+                    row.classList.add('shadow-lg');
+                } else {
+                    row.classList.add('opacity-20');
+                    row.classList.remove('shadow-lg');
+                }
+            });
+            
+            // Update highlighting for all Order rows
+            ordersDbBodyFulfillment.querySelectorAll('tr').forEach(row => {
+                if (row.dataset.orderId === orderId) {
+                    row.classList.remove('opacity-20');
+                    row.classList.add('shadow-lg');
+                } else {
+                    row.classList.add('opacity-20');
+                    row.classList.remove('shadow-lg');
+                }
+            });
+
+            // Detokenize and create label
+            const name = detokenize(order.nameToken);
+            const address = detokenize(order.addressToken);
+
+            if (name && address) {
+                 shippingLabel.innerHTML = `<div class="text-left p-4"><p class="font-bold text-lg">${name}</p><p>${address}</p></div>`;
+            } else {
+                 shippingLabel.innerHTML = `<div class="text-left p-4 text-red-500"><p>Could not retrieve shipping information.</p></div>`;
+            }
+        });
+        
+        function detokenize(tokenToFind) {
+            const vaultEntry = vaultData.find(entry => entry.token === tokenToFind);
+            return vaultEntry ? vaultEntry.rawData : null;
+        }
+        
+        // --- Seeding Logic ---
+        function seedData() {
+            vaultData = [];
+            ordersData = [];
+            
+            const dummyData = [
+                { name: 'John Smith', email: 'john.smith@example.com', address: '456 Oak Ave, Othertown, USA', account: 'FashionA'},
+                { name: 'Maria Garcia', email: 'maria.garcia@example.com', address: '789 Pine St, Anycity, USA', account: 'FashionB'},
+                { name: 'John Smith', email: 'john.smith@example.com', address: '456 Oak Ave, Othertown, USA', account: 'FashionB'}, // Same person, different store
+            ];
+
+            dummyData.forEach(({name, email, address, account}) => {
+                const nameToken = generateSimpleHash(name, email, account);
+                const emailToken = generateSimpleHash(email, email, account);
+                const addressToken = generateSimpleHash(address, email, account);
+                const orderId = `ORD-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+
+                vaultData.push({ store: account, dataSubject: email, rawData: name, token: nameToken });
+                vaultData.push({ store: account, dataSubject: email, rawData: email, token: emailToken });
+                vaultData.push({ store: account, dataSubject: email, rawData: address, token: addressToken });
+                ordersData.push({ orderId, store: account, items: ['hat-red', 'scarf-blue'], nameToken, emailToken, addressToken });
+            });
+            
+            // Re-render the currently active view
+            if (!checkoutView.classList.contains('hidden')) {
+                renderCheckoutView();
+            } else {
+                renderFulfillmentView();
+            }
+        }
+        
+        document.querySelectorAll('.seed-data-btn').forEach(button => {
+            button.addEventListener('click', seedData);
+        });
+
+        // Initial render
+        renderCheckoutView();
     </script>
 </body>
 </html>
