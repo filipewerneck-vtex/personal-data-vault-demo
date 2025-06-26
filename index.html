@@ -26,12 +26,21 @@
 
         <div class="flex flex-col md:flex-row gap-8">
             
-            <!-- Left Column: Checkout Form -->
+            <!-- Left Column: Use Case Panel -->
             <div class="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-lg">
                 <h2 class="text-2xl font-semibold mb-6 text-center border-b pb-4">Checkout Demo</h2>
                 
+                <!-- Account Selector -->
+                <div class="mb-6">
+                    <label for="account-selector" class="block text-sm font-medium text-gray-700 mb-2">Select Store (Account):</label>
+                    <select id="account-selector" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="FashionA">FashionA</option>
+                        <option value="FashionB">FashionB</option>
+                    </select>
+                </div>
+
                 <!-- Product Listing -->
-                <div class="mb-6 border-b pb-6">
+                <div class="mb-6 border-t border-b py-6">
                     <h3 class="text-lg font-semibold text-gray-800 mb-4">Your Cart</h3>
                     <div class="space-y-4">
                         <div class="flex justify-between items-center">
@@ -130,39 +139,38 @@
         const checkoutForm = document.getElementById('checkout-form');
         const vaultDbBody = document.getElementById('vault-db');
         const ordersDbBody = document.getElementById('orders-db');
+        const accountSelector = document.getElementById('account-selector');
 
         // --- Event Listener for Form Submission ---
         checkoutForm.addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission
 
-            // --- 1. Get User Input ---
+            // --- 1. Get Context and User Input ---
+            const account = accountSelector.value;
             const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
+            const email = document.getElementById('email').value; // This is our Data Subject
             const address = document.getElementById('address').value;
 
-            // Simple validation to ensure fields are not empty
+            // Simple validation
             if (!name || !email || !address) {
-                // In a real app, you'd show a user-friendly message.
                 console.error("Please fill out all fields.");
                 return; 
             }
 
-            // --- 2. Simulate Tokenization ---
-            // In a real system, this would be a secure, non-reversible process.
-            // Here, we use a simple function for demonstration.
-            const nameToken = `tok_usr_${generateSimpleHash(name)}`;
-            const emailToken = `tok_eml_${generateSimpleHash(email)}`;
-            const addressToken = `tok_adr_${generateSimpleHash(address)}`;
+            // --- 2. Simulate Context-Aware Tokenization ---
+            // The token now depends on the raw data, the data subject (email), and the account.
+            const nameToken = `tok_usr_${generateSimpleHash(name, email, account)}`;
+            const emailToken = `tok_eml_${generateSimpleHash(email, email, account)}`;
+            const addressToken = `tok_adr_${generateSimpleHash(address, email, account)}`;
 
             // --- 3. Update the Personal Data Vault Table ---
-            // We create rows for each piece of PII, associating it with the data subject (email).
             addVaultRow(email, name, nameToken);
             addVaultRow(email, email, emailToken);
             addVaultRow(email, address, addressToken);
 
             // --- 4. Update the Orders Database Table ---
             const orderId = `ORD-${Date.now().toString().slice(-6)}`;
-            const itemIds = ['t-shirt-white', 'socks-pair']; // Updated item IDs
+            const itemIds = ['t-shirt-white', 'socks-pair'];
 
             const newOrderRow = document.createElement('tr');
             newOrderRow.innerHTML = `
@@ -177,7 +185,6 @@
             // Animate the new row
             newOrderRow.classList.add('animate-pulse');
             setTimeout(() => newOrderRow.classList.remove('animate-pulse'), 1500);
-
 
             // --- 5. Reset the Form ---
             checkoutForm.reset();
@@ -198,21 +205,24 @@
             `;
             vaultDbBody.appendChild(newRow);
             
-            // Animate the new row to draw attention to it
             newRow.classList.add('animate-pulse');
             setTimeout(() => newRow.classList.remove('animate-pulse'), 1500);
         }
 
         /**
-         * Generates a simple, non-secure hash from a string for demonstration.
-         * In a real-world scenario, you would use a cryptographic hash or a dedicated tokenization service.
-         * @param {string} str - The input string.
+         * Generates a simple, non-secure hash from a string and its context.
+         * @param {string} str - The input string (the raw PII).
+         * @param {string} dataSubject - The identifier for the data owner (e.g., email).
+         * @param {string} account - The context of the operation (e.g., store name).
          * @returns {string} A short hash-like string.
          */
-        function generateSimpleHash(str) {
+        function generateSimpleHash(str, dataSubject, account) {
+            // Combine the raw data with its context to create a unique input for the hash.
+            const combinedString = `${str}::${dataSubject}::${account}`;
+            
             let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
+            for (let i = 0; i < combinedString.length; i++) {
+                const char = combinedString.charCodeAt(i);
                 hash = ((hash << 5) - hash) + char;
                 hash |= 0; // Convert to 32bit integer
             }
