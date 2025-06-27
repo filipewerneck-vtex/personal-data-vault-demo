@@ -37,7 +37,7 @@
             overflow-y: scroll;
         }
         .table-container {
-            height: 320px; 
+            height: 250px; 
             overflow-y: auto;
         }
         .shipping-label {
@@ -63,6 +63,10 @@
             'wght' 400,
             'GRAD' 0,
             'opsz' 24
+        }
+
+        .z-1 {
+            z-index: 1;
         }
     </style>
 </head>
@@ -94,6 +98,13 @@
                    <span class="material-symbols-outlined text-2xl">balance</span>
                 </div>
                 <span class="label text-xs mt-1">User Rights</span>
+            </a>
+            <!-- Navigation Item 4: Search -->
+            <a href="#" id="nav-search" class="nav-item flex flex-col items-center justify-center p-2 w-full rounded-lg hover:bg-gray-100 text-center">
+                 <div class="icon-container flex items-center justify-center w-16 h-8 rounded-full">
+                   <span class="material-symbols-outlined text-2xl">search</span>
+                </div>
+                <span class="label text-xs mt-1">Search</span>
             </a>
         </nav>
     </aside>
@@ -142,14 +153,14 @@
                              <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
                         </div>
                         <div class="mb-8">
-                            <h3 class="text-xl font-semibold mb-3">1. Personal Data Vault</h3>
-                            <p class="text-sm text-[--secondary-light-1] mb-3">Securely stores raw PII mapped to a generated token.</p>
-                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th></tr></thead><tbody id="vault-db-checkout" class="bg-white divide-y"></tbody></table></div>
+                            <h3 class="text-xl font-semibold mb-3 text-[--primary]">1. Personal Data Vault</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">Securely stores raw PII, a context-aware token (the token for the same information changes depending on the account and data subject), and a context-less fingerprint.</p>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Fingerprint</th></tr></thead><tbody id="vault-db-checkout" class="bg-white divide-y"></tbody></table></div>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold mb-3">2. Orders Database</h3>
-                            <p class="text-sm text-[--secondary-light-1] mb-3">Stores order info using tokens, minimizing data exposure.</p>
-                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address</th></tr></thead><tbody id="orders-db-checkout" class="bg-white divide-y"></tbody></table></div>
+                            <h3 class="text-xl font-semibold mb-3 text-[--secondary]">2. Orders Database</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">Stores searchable fingerprints alongside the tokens for each relevant field.</p>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Fingerprint</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address Token</th></tr></thead><tbody id="orders-db-checkout" class="bg-white divide-y"></tbody></table></div>
                         </div>
                     </div>
                 </div>
@@ -171,7 +182,7 @@
                         <p class="text-sm text-[--secondary-light-1] mb-3">Click "Create Shipping Label" to securely retrieve the customer's real name and address for shipping by detokenizing the required PII.</p>
                         <div class="table-container border rounded-lg mb-6">
                              <table class="min-w-full divide-y divide-gray-200">
-                                <thead class="bg-gray-50 sticky top-0">
+                                <thead class="bg-gray-50 sticky top-0 z-1">
                                     <tr>
                                         <th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th>
                                         <th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th>
@@ -193,14 +204,14 @@
                              <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
                         </div>
                         <div class="mb-8">
-                            <h3 class="text-xl font-semibold mb-3">1. Orders Database</h3>
+                            <h3 class="text-xl font-semibold mb-3 text-[--secondary]">1. Orders Database</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">The fulfillment system queries the orders database and receives tokenized information for the selected order.</p>
-                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address</th></tr></thead><tbody id="orders-db-fulfillment" class="bg-white divide-y"></tbody></table></div>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Fingerprint</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address Token</th></tr></thead><tbody id="orders-db-fulfillment" class="bg-white divide-y"></tbody></table></div>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold mb-3">2. Personal Data Vault</h3>
+                            <h3 class="text-xl font-semibold mb-3 text-[--primary]">2. Personal Data Vault</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">To create the shipping label, the system requests the detokenization of the Name and Address tokens from the Vault.</p>
-                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th></tr></thead><tbody id="vault-db-fulfillment" class="bg-white divide-y"></tbody></table></div>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Fingerprint</th></tr></thead><tbody id="vault-db-fulfillment" class="bg-white divide-y"></tbody></table></div>
                         </div>
                     </div>
                 </div>
@@ -250,14 +261,80 @@
                              <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
                         </div>
                         <div class="mb-8">
-                            <h3 class="text-xl font-semibold mb-3">1. Personal Data Vault</h3>
+                            <h3 class="text-xl font-semibold mb-3 text-[--primary]">1. Personal Data Vault</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">The system finds all records for the data subject to either list or mask their information.</p>
-                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th></tr></thead><tbody id="vault-db-dsr" class="bg-white divide-y"></tbody></table></div>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Fingerprint</th></tr></thead><tbody id="vault-db-dsr" class="bg-white divide-y"></tbody></table></div>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold mb-3">2. Orders Database</h3>
+                            <h3 class="text-xl font-semibold mb-3 text-[--secondary]">2. Orders Database</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">The orders database remains unchanged as it contains no raw PII.</p>
-                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address</th></tr></thead><tbody id="orders-db-dsr" class="bg-white divide-y"></tbody></table></div>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Fingerprint</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address Token</th></tr></thead><tbody id="orders-db-dsr" class="bg-white divide-y"></tbody></table></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View 4: Search Demo -->
+        <div id="search-view" class="view-container hidden">
+             <div class="container mx-auto p-4 md:p-8">
+                <header class="text-center mb-10">
+                    <h1 class="text-4xl font-bold">Personal Data Vault</h1>
+                    <p class="text-lg text-[--secondary-light-1] mt-2">Use Case 4: PII Search Limitations</p>
+                </header>
+
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Left Panel: Use Case -->
+                    <div class="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-lg">
+                        <h2 class="text-2xl font-semibold mb-4 text-center border-b pb-4">Order Search</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="search-name" class="block text-sm font-medium">Search by Customer Name</label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <input type="text" id="search-name" class="flex-1 block w-full px-3 py-2 border border-[--secondary-light-3] rounded-none rounded-l-md" placeholder="John Smith" required>
+                                    <button id="search-btn" class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-[--secondary-light-3] bg-[--secondary-light-3] text-[--secondary-light-1] hover:bg-[#d8dbe0]">Search</button>
+                                </div>
+                                <p class="mt-2 text-xs text-[--secondary-light-1]">Note: Partial matches are not supported. Please enter the full name.</p>
+                            </div>
+                        </div>
+                        <div class="mt-6 border-t pt-6">
+                            <h3 class="text-xl font-semibold mb-3">Search Results</h3>
+                            <div id="search-results-container" class="table-container border rounded-lg">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50 sticky top-0 z-1">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="search-results-db" class="bg-white divide-y divide-gray-200">
+                                        <tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">Enter a name to search for orders.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right Panel: Data Flow -->
+                    <div class="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-lg">
+                        <div class="flex justify-between items-center mb-4 border-b pb-4">
+                             <h2 class="text-2xl font-semibold">Data Flow</h2>
+                             <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
+                        </div>
+                        <div class="mb-6">
+                            <h3 class="text-xl font-semibold mb-3 text-[--primary]">1. Input to Fingerprint Transformation</h3>
+                             <p class="text-sm text-[--secondary-light-1] mb-3">The search term is transformed into a context-less fingerprint.</p>
+                            <div class="border rounded-lg p-2"><table class="min-w-full"><tbody id="token-transformation-search"></tbody></table></div>
+                        </div>
+                        <div class="mb-6">
+                            <h3 class="text-xl font-semibold mb-3 text-[--secondary]">2. Orders Database</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">The database is queried with an exact match on the Name Fingerprint to find relevant orders.</p>
+                            <div class="table-container border rounded-lg" style="height: 180px;"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Fingerprint</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address Token</th></tr></thead><tbody id="orders-db-search" class="bg-white divide-y"></tbody></table></div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-[--secondary]">3. Personal Data Vault</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">The tokens from the found orders can be traced back to the Vault. Detokenization is not possible from a fingerprint.</p>
+                            <div class="table-container border rounded-lg" style="height: 180px;"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Fingerprint</th></tr></thead><tbody id="vault-db-search" class="bg-white divide-y"></tbody></table></div>
                         </div>
                     </div>
                 </div>
@@ -275,28 +352,32 @@
         const checkoutView = document.getElementById('checkout-view');
         const fulfillmentView = document.getElementById('fulfillment-view');
         const dataRightsView = document.getElementById('data-rights-view');
+        const searchView = document.getElementById('search-view');
         
-        // Checkout View Elements
+        // --- All View Elements ---
+        const vaultDbCheckout = document.getElementById('vault-db-checkout');
+        const ordersDbCheckout = document.getElementById('orders-db-checkout');
+        const vaultDbFulfillment = document.getElementById('vault-db-fulfillment');
+        const ordersDbFulfillment = document.getElementById('orders-db-fulfillment');
+        const vaultDbDsr = document.getElementById('vault-db-dsr');
+        const ordersDbDsr = document.getElementById('orders-db-dsr');
+        const vaultDbSearch = document.getElementById('vault-db-search');
+        const ordersDbSearch = document.getElementById('orders-db-search');
+        
+        // Use Case Specific Elements
         const checkoutForm = document.getElementById('checkout-form');
-        const vaultDbBodyCheckout = document.getElementById('vault-db-checkout');
-        const ordersDbBodyCheckout = document.getElementById('orders-db-checkout');
         const accountSelector = document.getElementById('account-selector');
-
-        // Fulfillment View Elements
         const fulfillmentOrdersDbBody = document.getElementById('fulfillment-orders-db');
         const shippingLabel = document.getElementById('shipping-label');
-        const vaultDbBodyFulfillment = document.getElementById('vault-db-fulfillment');
-        const ordersDbBodyFulfillment = document.getElementById('orders-db-fulfillment');
-
-        // Data Rights View Elements
         const dsrAccountSelector = document.getElementById('dsr-account-selector');
         const dsrEmailInput = document.getElementById('dsr-email');
         const dsrListBtn = document.getElementById('dsr-list-btn');
         const dsrForgetBtn = document.getElementById('dsr-forget-btn');
         const dsrResults = document.getElementById('dsr-results');
-        const vaultDbBodyDsr = document.getElementById('vault-db-dsr');
-        const ordersDbBodyDsr = document.getElementById('orders-db-dsr');
-
+        const searchNameInput = document.getElementById('search-name');
+        const searchBtn = document.getElementById('search-btn');
+        const searchResultsDb = document.getElementById('search-results-db');
+        const tokenTransformationSearch = document.getElementById('token-transformation-search');
 
         // --- Navigation Logic ---
         navRail.addEventListener('click', (event) => {
@@ -306,9 +387,7 @@
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             targetNavItem.classList.add('active');
 
-            checkoutView.classList.add('hidden');
-            fulfillmentView.classList.add('hidden');
-            dataRightsView.classList.add('hidden');
+            document.querySelectorAll('.view-container').forEach(view => view.classList.add('hidden'));
 
             if (targetNavItem.id === 'nav-checkout') {
                 checkoutView.classList.remove('hidden');
@@ -319,10 +398,13 @@
             } else if (targetNavItem.id === 'nav-data-rights') {
                 dataRightsView.classList.remove('hidden');
                 renderDataRightsView();
+            } else if (targetNavItem.id === 'nav-search') {
+                searchView.classList.remove('hidden');
+                renderSearchView();
             }
         });
 
-        // --- Hashing Function ---
+        // --- Hashing & Fingerprinting Functions ---
         function generateSimpleHash(str, dataSubject, account) {
             const combinedString = `${str}::${dataSubject}::${account}`;
             let hash = 0;
@@ -331,6 +413,15 @@
                 hash |= 0;
             }
             return `pdv_${Math.abs(hash).toString(16).slice(0, 8)}`;
+        }
+
+        function generateFingerprint(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                hash = ((hash << 5) - hash) + str.charCodeAt(i);
+                hash |= 0;
+            }
+            return `fp_${Math.abs(hash).toString(16).slice(0, 8)}`;
         }
         
         // --- Data Rendering Functions ---
@@ -344,8 +435,8 @@
 
         // --- Checkout View Logic ---
         function renderCheckoutView() {
-            renderTable(vaultDbBodyCheckout, vaultData, createVaultRow);
-            renderTable(ordersDbBodyCheckout, ordersData, createOrderRow);
+            renderTable(vaultDbCheckout, vaultData, createVaultRow);
+            renderTable(ordersDbCheckout, ordersData, createOrderRow);
         }
 
         checkoutForm.addEventListener('submit', function(event) {
@@ -360,45 +451,48 @@
             const nameToken = generateSimpleHash(name, email, account);
             const emailToken = generateSimpleHash(email, email, account);
             const addressToken = generateSimpleHash(address, email, account);
+            const nameFingerprint = generateFingerprint(name);
+            const emailFingerprint = generateFingerprint(email);
+            const addressFingerprint = generateFingerprint(address);
             const orderId = `ORD-${Date.now().toString().slice(-6)}`;
 
-            vaultData.push({ store: account, dataSubject: email, rawData: name, token: nameToken });
-            vaultData.push({ store: account, dataSubject: email, rawData: email, token: emailToken });
-            vaultData.push({ store: account, dataSubject: email, rawData: address, token: addressToken });
+            vaultData.push({ store: account, dataSubject: email, rawData: name, token: nameToken, fingerprint: nameFingerprint });
+            vaultData.push({ store: account, dataSubject: email, rawData: email, token: emailToken, fingerprint: emailFingerprint });
+            vaultData.push({ store: account, dataSubject: email, rawData: address, token: addressToken, fingerprint: addressFingerprint });
             
-            ordersData.push({ orderId, store: account, items: ['t-shirt-white', 'socks-pair'], nameToken, emailToken, addressToken });
+            ordersData.push({ orderId, store: account, items: ['t-shirt-white', 'socks-pair'], nameToken, nameFingerprint, emailToken, addressToken });
 
             renderCheckoutView();
             checkoutForm.reset();
         });
 
-        function createVaultRow({ store, dataSubject, rawData, token }) {
+        function createVaultRow({ store, dataSubject, rawData, token, fingerprint }) {
             const newRow = document.createElement('tr');
             newRow.dataset.token = token;
             newRow.dataset.subject = dataSubject;
             newRow.dataset.store = store;
             newRow.className = 'transition-all duration-300 ease-in-out';
-            newRow.innerHTML = `<td class="px-4 py-3 text-sm">${store}</td><td class="px-4 py-3 text-sm text-[--secondary-light-1]">${dataSubject}</td><td class="px-4 py-3 text-sm">${rawData}</td><td class="px-4 py-3 text-sm text-[--primary] font-mono">${token}</td>`;
+            newRow.innerHTML = `<td class="px-4 py-3 text-sm">${store}</td><td class="px-4 py-3 text-sm text-[--secondary-light-1]">${dataSubject}</td><td class="px-4 py-3 text-sm">${rawData}</td><td class="px-4 py-3 text-sm text-[--primary] font-mono">${token}</td><td class="px-4 py-3 text-sm text-blue-600 font-mono">${fingerprint}</td>`;
             return newRow;
         }
 
-        function createOrderRow({ orderId, store, items, nameToken, emailToken, addressToken }) {
+        function createOrderRow({ orderId, store, items, nameToken, nameFingerprint, emailToken, addressToken }) {
             const newRow = document.createElement('tr');
             newRow.dataset.orderId = orderId;
             newRow.className = 'transition-all duration-300 ease-in-out';
-            newRow.innerHTML = `<td class="px-4 py-3 text-sm">${orderId}</td><td class="px-4 py-3 text-sm">${store}</td><td class="px-4 py-3 text-sm text-[--secondary-light-1]">${items.join(', ')}</td><td class="px-4 py-3 text-sm text-green-600 font-mono">${nameToken}</td><td class="px-4 py-3 text-sm text-green-600 font-mono">${emailToken}</td><td class="px-4 py-3 text-sm text-green-600 font-mono">${addressToken}</td>`;
+            newRow.innerHTML = `<td class="px-4 py-3 text-sm">${orderId}</td><td class="px-4 py-3 text-sm">${store}</td><td class="px-4 py-3 text-sm text-[--secondary-light-1]">${items.join(', ')}</td><td class="px-4 py-3 text-sm text-green-600 font-mono">${nameToken}</td><td class="px-4 py-3 text-sm text-blue-600 font-mono">${nameFingerprint}</td><td class="px-4 py-3 text-sm text-green-600 font-mono">${emailToken}</td><td class="px-4 py-3 text-sm text-green-600 font-mono">${addressToken}</td>`;
             return newRow;
         }
 
         // --- Fulfillment Logic ---
         function renderFulfillmentView() {
-            renderTable(vaultDbBodyFulfillment, vaultData, createVaultRow);
-            renderTable(ordersDbBodyFulfillment, ordersData, createOrderRow);
+            renderTable(vaultDbFulfillment, vaultData, createVaultRow);
+            renderTable(ordersDbFulfillment, ordersData, createOrderRow);
             
             fulfillmentOrdersDbBody.innerHTML = '';
             shippingLabel.innerHTML = '<span class="text-[--secondary-light-1]">Select an order to generate a label</span>';
             if (ordersData.length === 0) {
-                fulfillmentOrdersDbBody.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">No orders placed yet. Go to the Checkout demo or seed data.</td></tr>';
+                fulfillmentOrdersDbBody.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">No orders placed yet.</td></tr>';
                 return;
             }
             ordersData.forEach(order => {
@@ -410,17 +504,16 @@
         
         fulfillmentOrdersDbBody.addEventListener('click', (event) => {
             if (!event.target.classList.contains('create-label-btn')) return;
-
             const orderId = event.target.dataset.orderId;
             const order = ordersData.find(o => o.orderId === orderId);
             const tokensToHighlight = [order.nameToken, order.addressToken];
 
-            vaultDbBodyFulfillment.querySelectorAll('tr').forEach(row => {
+            vaultDbFulfillment.querySelectorAll('tr').forEach(row => {
                 row.classList.toggle('shadow-lg', tokensToHighlight.includes(row.dataset.token));
                 row.classList.toggle('opacity-20', !tokensToHighlight.includes(row.dataset.token));
             });
             
-            ordersDbBodyFulfillment.querySelectorAll('tr').forEach(row => {
+            ordersDbFulfillment.querySelectorAll('tr').forEach(row => {
                 row.classList.toggle('shadow-lg', row.dataset.orderId === orderId);
                 row.classList.toggle('opacity-20', row.dataset.orderId !== orderId);
             });
@@ -442,8 +535,8 @@
 
         // --- Data Rights Logic ---
         function renderDataRightsView() {
-            renderTable(vaultDbBodyDsr, vaultData, createVaultRow);
-            renderTable(ordersDbBodyDsr, ordersData, createOrderRow);
+            renderTable(vaultDbDsr, vaultData, createVaultRow);
+            renderTable(ordersDbDsr, ordersData, createOrderRow);
             dsrResults.innerHTML = '<span class="text-[--secondary-light-1]">Submit a request to see data.</span>';
         }
 
@@ -469,7 +562,7 @@
                 dsrResults.innerHTML = '<span class="text-[--secondary-light-1]">No data found for this email in this store.</span>';
             }
 
-            vaultDbBodyDsr.querySelectorAll('tr').forEach(row => {
+            vaultDbDsr.querySelectorAll('tr').forEach(row => {
                  const isMatch = row.dataset.subject === email && row.dataset.store === store;
                  row.classList.toggle('shadow-lg', isMatch);
                  row.classList.toggle('opacity-20', !isMatch);
@@ -488,7 +581,7 @@
             });
             dsrResults.innerHTML = `<span class="text-[--primary]">Masking request processed for ${email} in store ${store}.</span>`;
             renderDataRightsView();
-             vaultDbBodyDsr.querySelectorAll('tr').forEach(row => {
+             vaultDbDsr.querySelectorAll('tr').forEach(row => {
                  if(row.dataset.subject === email && row.dataset.store === store) {
                     row.classList.add('shadow-lg', 'bg-[--primary-light-3]');
                  }
@@ -504,6 +597,62 @@
             return data.split(' ').map(word => word[0] + '*'.repeat(word.length - 1)).join(' ');
         }
         
+        // --- Search Logic ---
+        function renderSearchView() {
+            renderTable(vaultDbSearch, vaultData, createVaultRow);
+            renderTable(ordersDbSearch, ordersData, createOrderRow);
+            searchResultsDb.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">Enter a name to search for orders.</td></tr>';
+            tokenTransformationSearch.innerHTML = '';
+        }
+
+        searchBtn.addEventListener('click', () => {
+            const searchName = searchNameInput.value;
+            if (!searchName) return;
+
+            const nameFingerprint = generateFingerprint(searchName);
+            
+            // Display the transformation
+            tokenTransformationSearch.innerHTML = `
+                <tr>
+                    <td class="px-2 py-1 text-sm text-right">${searchName}</td>
+                    <td class="px-2 py-1 text-sm text-center">→</td>
+                    <td class="px-2 py-1 text-sm text-blue-600 font-mono">${nameFingerprint}</td>
+                </tr>
+            `;
+
+            // Find all orders that use this fingerprint
+            const foundOrders = ordersData.filter(order => order.nameFingerprint === nameFingerprint);
+
+            // Render the results table on the left
+            searchResultsDb.innerHTML = '';
+            if (foundOrders.length > 0) {
+                 foundOrders.forEach(order => {
+                    const address = detokenize(order.addressToken) || 'N/A';
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `<td class="px-4 py-3 text-sm">${order.orderId}</td><td class="px-4 py-3 text-sm">${order.store}</td><td class="px-4 py-3 text-sm text-[--secondary-light-1]">${address}</td>`;
+                    searchResultsDb.appendChild(newRow);
+                });
+            } else {
+                 searchResultsDb.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">No orders found for this name.</td></tr>';
+            }
+           
+            // Highlight rows in the right panel
+            const addressTokensToHighlight = foundOrders.map(o => o.addressToken);
+            vaultDbSearch.querySelectorAll('tr').forEach(row => {
+                 const isMatch = addressTokensToHighlight.includes(row.dataset.token);
+                 row.classList.toggle('shadow-lg', isMatch);
+                 row.classList.toggle('opacity-20', !isMatch);
+            });
+
+            const foundOrderIds = foundOrders.map(o => o.orderId);
+            ordersDbSearch.querySelectorAll('tr').forEach(row => {
+                const isMatch = foundOrderIds.includes(row.dataset.orderId);
+                row.classList.toggle('shadow-lg', isMatch);
+                row.classList.toggle('opacity-20', !isMatch);
+            });
+        });
+
+
         // --- Seeding Logic ---
         function seedData() {
             vaultData = [];
@@ -519,21 +668,22 @@
                 const nameToken = generateSimpleHash(name, email, account);
                 const emailToken = generateSimpleHash(email, email, account);
                 const addressToken = generateSimpleHash(address, email, account);
+                const nameFingerprint = generateFingerprint(name);
+                const emailFingerprint = generateFingerprint(email);
+                const addressFingerprint = generateFingerprint(address);
                 const orderId = `ORD-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
 
-                vaultData.push({ store: account, dataSubject: email, rawData: name, token: nameToken });
-                vaultData.push({ store: account, dataSubject: email, rawData: email, token: emailToken });
-                vaultData.push({ store: account, dataSubject: email, rawData: address, token: addressToken });
-                ordersData.push({ orderId, store: account, items: ['hat-red', 'scarf-blue'], nameToken, emailToken, addressToken });
+                vaultData.push({ store: account, dataSubject: email, rawData: name, token: nameToken, fingerprint: nameFingerprint });
+                vaultData.push({ store: account, dataSubject: email, rawData: email, token: emailToken, fingerprint: emailFingerprint });
+                vaultData.push({ store: account, dataSubject: email, rawData: address, token: addressToken, fingerprint: addressFingerprint });
+                ordersData.push({ orderId, store: account, items: ['hat-red', 'scarf-blue'], nameToken, nameFingerprint, emailToken, addressToken });
             });
             
-            if (!checkoutView.classList.contains('hidden')) {
-                renderCheckoutView();
-            } else if (!fulfillmentView.classList.contains('hidden')) {
-                renderFulfillmentView();
-            } else {
-                renderDataRightsView();
-            }
+            const activeNav = document.querySelector('.nav-item.active').id;
+            if (activeNav === 'nav-checkout') renderCheckoutView();
+            else if (activeNav === 'nav-fulfillment') renderFulfillmentView();
+            else if (activeNav === 'nav-data-rights') renderDataRightsView();
+            else if (activeNav === 'nav-search') renderSearchView();
         }
         
         document.querySelectorAll('.seed-data-btn').forEach(button => {
