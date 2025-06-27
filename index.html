@@ -69,11 +69,11 @@
 <body class="flex">
 
     <!-- Navigation Rail -->
-    <aside class="w-24 bg-white shadow-md flex-shrink-0 flex flex-col items-center">
-        <div class="h-16 flex items-center justify-center">
+    <aside class="w-24 flex-shrink-0 flex flex-col items-center justify-center">
+        <div class="h-16 flex items-center justify-center -mt-16">
             <h2 class="text-xl font-bold text-[--primary]">Cases</h2>
         </div>
-        <nav id="nav-rail" class="w-full flex flex-col items-center p-2 space-y-2">
+        <nav id="nav-rail" class="w-full flex flex-col items-center p-2 space-y-2 ml-4">
             <!-- Navigation Item 1: Checkout -->
             <a href="#" id="nav-checkout" class="nav-item flex flex-col items-center justify-center p-2 w-full rounded-lg text-center active" aria-current="page">
                 <div class="icon-container flex items-center justify-center w-16 h-8 rounded-full">
@@ -142,12 +142,12 @@
                              <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
                         </div>
                         <div class="mb-8">
-                            <h3 class="text-xl font-semibold mb-3 text-[--primary]">1. Personal Data Vault</h3>
+                            <h3 class="text-xl font-semibold mb-3">1. Personal Data Vault</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">Securely stores raw PII mapped to a generated token.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th></tr></thead><tbody id="vault-db-checkout" class="bg-white divide-y"></tbody></table></div>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold mb-3 text-[--secondary]">2. Orders Database</h3>
+                            <h3 class="text-xl font-semibold mb-3">2. Orders Database</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">Stores order info using tokens, minimizing data exposure.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address</th></tr></thead><tbody id="orders-db-checkout" class="bg-white divide-y"></tbody></table></div>
                         </div>
@@ -193,14 +193,14 @@
                              <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
                         </div>
                         <div class="mb-8">
-                            <h3 class="text-xl font-semibold mb-3 text-[--primary]">1. Personal Data Vault</h3>
-                            <p class="text-sm text-[--secondary-light-1] mb-3">The fulfillment system requests to open tokens for the Name and Address to create the shipping label.</p>
-                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th></tr></thead><tbody id="vault-db-fulfillment" class="bg-white divide-y"></tbody></table></div>
+                            <h3 class="text-xl font-semibold mb-3">1. Orders Database</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">The fulfillment system queries the orders database and receives tokenized information for the selected order.</p>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address</th></tr></thead><tbody id="orders-db-fulfillment" class="bg-white divide-y"></tbody></table></div>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold mb-3 text-[--secondary]">2. Orders Database</h3>
-                            <p class="text-sm text-[--secondary-light-1] mb-3">The system's own database only contains tokenized information.</p>
-                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address</th></tr></thead><tbody id="orders-db-fulfillment" class="bg-white divide-y"></tbody></table></div>
+                            <h3 class="text-xl font-semibold mb-3">2. Personal Data Vault</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">To create the shipping label, the system requests the detokenization of the Name and Address tokens from the Vault.</p>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th></tr></thead><tbody id="vault-db-fulfillment" class="bg-white divide-y"></tbody></table></div>
                         </div>
                     </div>
                 </div>
@@ -250,12 +250,12 @@
                              <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
                         </div>
                         <div class="mb-8">
-                            <h3 class="text-xl font-semibold mb-3 text-[--primary]">1. Personal Data Vault</h3>
+                            <h3 class="text-xl font-semibold mb-3">1. Personal Data Vault</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">The system finds all records for the data subject to either list or mask their information.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th></tr></thead><tbody id="vault-db-dsr" class="bg-white divide-y"></tbody></table></div>
                         </div>
                         <div>
-                            <h3 class="text-xl font-semibold mb-3 text-[--secondary]">2. Orders Database</h3>
+                            <h3 class="text-xl font-semibold mb-3">2. Orders Database</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">The orders database remains unchanged as it contains no raw PII.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address</th></tr></thead><tbody id="orders-db-dsr" class="bg-white divide-y"></tbody></table></div>
                         </div>
