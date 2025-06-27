@@ -64,10 +64,6 @@
             'GRAD' 0,
             'opsz' 24
         }
-
-        .z-1 {
-            z-index: 1;
-        }
     </style>
 </head>
 <body class="flex">
@@ -105,6 +101,13 @@
                    <span class="material-symbols-outlined text-2xl">search</span>
                 </div>
                 <span class="label text-xs mt-1">Search</span>
+            </a>
+             <!-- Navigation Item 5: Partial Search -->
+            <a href="#" id="nav-partial-search" class="nav-item flex flex-col items-center justify-center p-2 w-full rounded-lg hover:bg-gray-100 text-center">
+                 <div class="icon-container flex items-center justify-center w-16 h-8 rounded-full">
+                   <span class="material-symbols-outlined text-2xl">find_in_page</span>
+                </div>
+                <span class="label text-xs mt-1">Partial Search</span>
             </a>
         </nav>
     </aside>
@@ -154,7 +157,7 @@
                         </div>
                         <div class="mb-8">
                             <h3 class="text-xl font-semibold mb-3 text-[--primary]">1. Personal Data Vault</h3>
-                            <p class="text-sm text-[--secondary-light-1] mb-3">Securely stores raw PII, a context-aware token (the token for the same information changes depending on the account and data subject), and a context-less fingerprint.</p>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">Securely stores raw PII, a context-aware token, and a context-less fingerprint.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Fingerprint</th></tr></thead><tbody id="vault-db-checkout" class="bg-white divide-y"></tbody></table></div>
                         </div>
                         <div>
@@ -340,6 +343,69 @@
                 </div>
             </div>
         </div>
+
+         <!-- View 5: Partial Search Demo -->
+        <div id="partial-search-view" class="view-container hidden">
+             <div class="container mx-auto p-4 md:p-8">
+                <header class="text-center mb-10">
+                    <h1 class="text-4xl font-bold">Personal Data Vault</h1>
+                    <p class="text-lg text-[--secondary-light-1] mt-2">Use Case 5: Partial Search</p>
+                </header>
+
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Left Panel: Use Case -->
+                    <div class="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-lg">
+                        <h2 class="text-2xl font-semibold mb-4 text-center border-b pb-4">Order Search (Partial)</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label for="partial-search-name" class="block text-sm font-medium">Search by Customer Name</label>
+                                <div class="mt-1 flex rounded-md shadow-sm">
+                                    <input type="text" id="partial-search-name" class="flex-1 block w-full px-3 py-2 border border-[--secondary-light-3] rounded-md" placeholder="John" required>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="mt-4 p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700">
+                            <p class="font-bold">Warning!</p>
+                            <p class="text-sm">To enable partial search, all orders were fetched and their PII detokenized. This can lead to excessive requests to the Vault and is not recommended. Try to use other strategies to narrow down the number of detokenizations required</p>
+                        </div>
+                        <div class="mt-6 border-t pt-6">
+                            <h3 class="text-xl font-semibold mb-3">Search Results</h3>
+                            <div class="table-container border rounded-lg">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50 sticky top-0 z-1">
+                                        <tr>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Customer Name</th>
+                                            <th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="partial-search-results-db" class="bg-white divide-y divide-gray-200">
+                                        <tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">All orders are loaded. Use the search bar above.</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Right Panel: Data Flow -->
+                    <div class="w-full md:w-1/2 bg-white p-6 rounded-xl shadow-lg">
+                        <div class="flex justify-between items-center mb-4 border-b pb-4">
+                             <h2 class="text-2xl font-semibold">Data Flow</h2>
+                             <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
+                        </div>
+                        <div class="mb-8">
+                            <h3 class="text-xl font-semibold mb-3 text-[--secondary]">1. Orders Database</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">The system first queries its entire orders database.</p>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Fingerprint</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address Token</th></tr></thead><tbody id="orders-db-partial-search" class="bg-white divide-y"></tbody></table></div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-[--primary]">2. Personal Data Vault</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">A bulk request is made to detokenize all names, exposing the raw data for client-side search.</p>
+                            <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Fingerprint</th></tr></thead><tbody id="vault-db-partial-search" class="bg-white divide-y"></tbody></table></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -353,16 +419,23 @@
         const fulfillmentView = document.getElementById('fulfillment-view');
         const dataRightsView = document.getElementById('data-rights-view');
         const searchView = document.getElementById('search-view');
+        const partialSearchView = document.getElementById('partial-search-view');
         
         // --- All View Elements ---
-        const vaultDbCheckout = document.getElementById('vault-db-checkout');
-        const ordersDbCheckout = document.getElementById('orders-db-checkout');
-        const vaultDbFulfillment = document.getElementById('vault-db-fulfillment');
-        const ordersDbFulfillment = document.getElementById('orders-db-fulfillment');
-        const vaultDbDsr = document.getElementById('vault-db-dsr');
-        const ordersDbDsr = document.getElementById('orders-db-dsr');
-        const vaultDbSearch = document.getElementById('vault-db-search');
-        const ordersDbSearch = document.getElementById('orders-db-search');
+        const allVaultDbs = {
+            checkout: document.getElementById('vault-db-checkout'),
+            fulfillment: document.getElementById('vault-db-fulfillment'),
+            dsr: document.getElementById('vault-db-dsr'),
+            search: document.getElementById('vault-db-search'),
+            partialSearch: document.getElementById('vault-db-partial-search')
+        };
+        const allOrdersDbs = {
+            checkout: document.getElementById('orders-db-checkout'),
+            fulfillment: document.getElementById('orders-db-fulfillment'),
+            dsr: document.getElementById('orders-db-dsr'),
+            search: document.getElementById('orders-db-search'),
+            partialSearch: document.getElementById('orders-db-partial-search')
+        };
         
         // Use Case Specific Elements
         const checkoutForm = document.getElementById('checkout-form');
@@ -378,6 +451,8 @@
         const searchBtn = document.getElementById('search-btn');
         const searchResultsDb = document.getElementById('search-results-db');
         const tokenTransformationSearch = document.getElementById('token-transformation-search');
+        const partialSearchNameInput = document.getElementById('partial-search-name');
+        const partialSearchResultsDb = document.getElementById('partial-search-results-db');
 
         // --- Navigation Logic ---
         navRail.addEventListener('click', (event) => {
@@ -401,6 +476,9 @@
             } else if (targetNavItem.id === 'nav-search') {
                 searchView.classList.remove('hidden');
                 renderSearchView();
+            } else if (targetNavItem.id === 'nav-partial-search') {
+                partialSearchView.classList.remove('hidden');
+                renderPartialSearchView();
             }
         });
 
@@ -435,8 +513,8 @@
 
         // --- Checkout View Logic ---
         function renderCheckoutView() {
-            renderTable(vaultDbCheckout, vaultData, createVaultRow);
-            renderTable(ordersDbCheckout, ordersData, createOrderRow);
+            renderTable(allVaultDbs.checkout, vaultData, createVaultRow);
+            renderTable(allOrdersDbs.checkout, ordersData, createOrderRow);
         }
 
         checkoutForm.addEventListener('submit', function(event) {
@@ -486,8 +564,8 @@
 
         // --- Fulfillment Logic ---
         function renderFulfillmentView() {
-            renderTable(vaultDbFulfillment, vaultData, createVaultRow);
-            renderTable(ordersDbFulfillment, ordersData, createOrderRow);
+            renderTable(allVaultDbs.fulfillment, vaultData, createVaultRow);
+            renderTable(allOrdersDbs.fulfillment, ordersData, createOrderRow);
             
             fulfillmentOrdersDbBody.innerHTML = '';
             shippingLabel.innerHTML = '<span class="text-[--secondary-light-1]">Select an order to generate a label</span>';
@@ -508,12 +586,12 @@
             const order = ordersData.find(o => o.orderId === orderId);
             const tokensToHighlight = [order.nameToken, order.addressToken];
 
-            vaultDbFulfillment.querySelectorAll('tr').forEach(row => {
+            allVaultDbs.fulfillment.querySelectorAll('tr').forEach(row => {
                 row.classList.toggle('shadow-lg', tokensToHighlight.includes(row.dataset.token));
                 row.classList.toggle('opacity-20', !tokensToHighlight.includes(row.dataset.token));
             });
             
-            ordersDbFulfillment.querySelectorAll('tr').forEach(row => {
+            allOrdersDbs.fulfillment.querySelectorAll('tr').forEach(row => {
                 row.classList.toggle('shadow-lg', row.dataset.orderId === orderId);
                 row.classList.toggle('opacity-20', row.dataset.orderId !== orderId);
             });
@@ -535,8 +613,8 @@
 
         // --- Data Rights Logic ---
         function renderDataRightsView() {
-            renderTable(vaultDbDsr, vaultData, createVaultRow);
-            renderTable(ordersDbDsr, ordersData, createOrderRow);
+            renderTable(allVaultDbs.dsr, vaultData, createVaultRow);
+            renderTable(allOrdersDbs.dsr, ordersData, createOrderRow);
             dsrResults.innerHTML = '<span class="text-[--secondary-light-1]">Submit a request to see data.</span>';
         }
 
@@ -562,7 +640,7 @@
                 dsrResults.innerHTML = '<span class="text-[--secondary-light-1]">No data found for this email in this store.</span>';
             }
 
-            vaultDbDsr.querySelectorAll('tr').forEach(row => {
+            allVaultDbs.dsr.querySelectorAll('tr').forEach(row => {
                  const isMatch = row.dataset.subject === email && row.dataset.store === store;
                  row.classList.toggle('shadow-lg', isMatch);
                  row.classList.toggle('opacity-20', !isMatch);
@@ -581,7 +659,7 @@
             });
             dsrResults.innerHTML = `<span class="text-[--primary]">Masking request processed for ${email} in store ${store}.</span>`;
             renderDataRightsView();
-             vaultDbDsr.querySelectorAll('tr').forEach(row => {
+             allVaultDbs.dsr.querySelectorAll('tr').forEach(row => {
                  if(row.dataset.subject === email && row.dataset.store === store) {
                     row.classList.add('shadow-lg', 'bg-[--primary-light-3]');
                  }
@@ -599,8 +677,8 @@
         
         // --- Search Logic ---
         function renderSearchView() {
-            renderTable(vaultDbSearch, vaultData, createVaultRow);
-            renderTable(ordersDbSearch, ordersData, createOrderRow);
+            renderTable(allVaultDbs.search, vaultData, createVaultRow);
+            renderTable(allOrdersDbs.search, ordersData, createOrderRow);
             searchResultsDb.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">Enter a name to search for orders.</td></tr>';
             tokenTransformationSearch.innerHTML = '';
         }
@@ -611,19 +689,10 @@
 
             const nameFingerprint = generateFingerprint(searchName);
             
-            // Display the transformation
-            tokenTransformationSearch.innerHTML = `
-                <tr>
-                    <td class="px-2 py-1 text-sm text-right">${searchName}</td>
-                    <td class="px-2 py-1 text-sm text-center">→</td>
-                    <td class="px-2 py-1 text-sm text-blue-600 font-mono">${nameFingerprint}</td>
-                </tr>
-            `;
+            tokenTransformationSearch.innerHTML = `<tr><td class="px-2 py-1 text-sm text-right">${searchName}</td><td class="px-2 py-1 text-sm text-center">→</td><td class="px-2 py-1 text-sm text-blue-600 font-mono">${nameFingerprint}</td></tr>`;
 
-            // Find all orders that use this fingerprint
             const foundOrders = ordersData.filter(order => order.nameFingerprint === nameFingerprint);
 
-            // Render the results table on the left
             searchResultsDb.innerHTML = '';
             if (foundOrders.length > 0) {
                  foundOrders.forEach(order => {
@@ -636,20 +705,54 @@
                  searchResultsDb.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">No orders found for this name.</td></tr>';
             }
            
-            // Highlight rows in the right panel
             const addressTokensToHighlight = foundOrders.map(o => o.addressToken);
-            vaultDbSearch.querySelectorAll('tr').forEach(row => {
+            allVaultDbs.search.querySelectorAll('tr').forEach(row => {
                  const isMatch = addressTokensToHighlight.includes(row.dataset.token);
                  row.classList.toggle('shadow-lg', isMatch);
                  row.classList.toggle('opacity-20', !isMatch);
             });
 
             const foundOrderIds = foundOrders.map(o => o.orderId);
-            ordersDbSearch.querySelectorAll('tr').forEach(row => {
+            allOrdersDbs.search.querySelectorAll('tr').forEach(row => {
                 const isMatch = foundOrderIds.includes(row.dataset.orderId);
                 row.classList.toggle('shadow-lg', isMatch);
                 row.classList.toggle('opacity-20', !isMatch);
             });
+        });
+
+        // --- Partial Search Logic ---
+         function renderPartialSearchView() {
+            renderTable(allVaultDbs.partialSearch, vaultData, createVaultRow);
+            renderTable(allOrdersDbs.partialSearch, ordersData, createOrderRow);
+            partialSearchResultsDb.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">All orders are loaded. Use the search bar above.</td></tr>';
+            
+            // Remove any highlighting from previous actions
+            allVaultDbs.partialSearch.querySelectorAll('tr').forEach(row => row.classList.remove('shadow-lg', 'opacity-20'));
+            allOrdersDbs.partialSearch.querySelectorAll('tr').forEach(row => row.classList.remove('shadow-lg', 'opacity-20'));
+        }
+
+        partialSearchNameInput.addEventListener('keyup', () => {
+            const searchTerm = partialSearchNameInput.value.toLowerCase();
+            
+            // In a real scenario, this is highly inefficient. Here we simulate it.
+            const allOrdersWithDetokenizedNames = ordersData.map(order => {
+                return { ...order, rawName: detokenize(order.nameToken) };
+            });
+
+            const foundOrders = searchTerm 
+                ? allOrdersWithDetokenizedNames.filter(order => order.rawName.toLowerCase().includes(searchTerm))
+                : allOrdersWithDetokenizedNames;
+
+            partialSearchResultsDb.innerHTML = '';
+            if (foundOrders.length > 0) {
+                 foundOrders.forEach(order => {
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `<td class="px-4 py-3 text-sm">${order.orderId}</td><td class="px-4 py-3 text-sm">${order.rawName}</td><td class="px-4 py-3 text-sm">${order.store}</td>`;
+                    partialSearchResultsDb.appendChild(newRow);
+                });
+            } else {
+                 partialSearchResultsDb.innerHTML = `<tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">No orders found for "${searchTerm}".</td></tr>`;
+            }
         });
 
 
@@ -684,6 +787,7 @@
             else if (activeNav === 'nav-fulfillment') renderFulfillmentView();
             else if (activeNav === 'nav-data-rights') renderDataRightsView();
             else if (activeNav === 'nav-search') renderSearchView();
+            else if (activeNav === 'nav-partial-search') renderPartialSearchView();
         }
         
         document.querySelectorAll('.seed-data-btn').forEach(button => {
