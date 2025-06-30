@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Data Vault - API Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .method-post { background-color: #49cc90; }
+        .method-get { background-color: #61affe; }
+        .method-delete { background-color: #f93e3e; }
+        /* Simple scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a5568;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-1/4 bg-gray-900/80 backdrop-blur-sm border-r border-gray-700/50 p-6 overflow-y-auto">
+            <h1 class="text-2xl font-bold text-white mb-2">Personal Data Vault</h1>
+            <p class="text-sm text-gray-400 mb-8">API Reference</p>
+            
+            <nav id="api-nav">
+                <!-- API navigation links will be inserted here by JavaScript -->
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="api-content" class="w-3/4 p-8 overflow-y-auto">
+             <div class="flex flex-col items-center justify-center h-full">
+                <svg class="w-24 h-24 text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.789-2.75 9.566l-2.749-4.123A9.957 9.957 0 0112 11zm0 0c0-3.517 1.009-6.789 2.75-9.566l2.749 4.123A9.957 9.957 0 0012 11zm0 0V4m0 16v-2m0-1V4m0 16v-2m-5.4-3.54l-1.77-1.77m11.54 0l-1.77 1.77M7.77 7.77l-1.77 1.77m11.54 0l-1.77-1.77"></path></svg>
+                <h2 class="text-2xl font-semibold text-gray-500">Select an endpoint</h2>
+                <p class="text-gray-600">Choose an API endpoint from the left menu to view its documentation and try it out.</p>
+            </div>
+        </main>
+    </div>
+
+<script>
+    // --- Hashing & Fingerprinting Functions ---
+    function generateSimpleHash(str, dataSubject, account) {
+        const combinedString = `${str}::${dataSubject}::${account}`;
+        let hash = 0;
+        for (let i = 0; i < combinedString.length; i++) {
+            hash = ((hash << 5) - hash) + combinedString.charCodeAt(i);
+            hash |= 0;
+        }
+        return `pdv_${Math.abs(hash).toString(16).slice(0, 8)}`;
+    }
+
+    function generateFingerprint(str) {
+        let hash = 0;
+        // Ensure the input is a string
+        const stringToHash = String(str);
+        for (let i = 0; i < stringToHash.length; i++) {
+            hash = ((hash << 5) - hash) + stringToHash.charCodeAt(i);
+            hash |= 0;
+        }
+        return `fp_${Math.abs(hash).toString(16).slice(0, 8)}`;
+    }
+
+    // --- API DATA ---
+    const apiData = {
+        tokenize: {
+            group: "Tokenization",
+            title: "Create a token (sync)",
+            description: "Generates consistent tokens for the given personal data. The generated tokens are consistent within the context of an account and a data subject.",
+            method: "POST",
+            path: "/api/personal-data-vault/tokenize",
+            params: [{ name: 'an', in: 'query', description: 'The account name making the request.', required: true, schema: { type: 'string' }, example: 'ambientecrm' }],
+            body: {
+                description: 'The data to tokenize, the data subject, and the Time-To-Live (TTL).',
+                required: true,
+                schema: `{
+    "data": {
+        "name": "Gustavo A.",
+        "ip": "127.0.21.1",
+        "address": {
+            "strt": "Rua dos bobos",
+            "number": 0
+        }
+    },
+    "dataSubject": "gustavo.alves@vtex.com",
+    "ttl": "5y"
+}`
+            },
+            response: `{}` // Response is now generated dynamically
+        },
+        tokenizeAsync: {
+            group: "Tokenization",
+            title: "Create a token (async)",
+            description: "Offers an asynchronous method to tokenize data to mitigate impact on critical flows. It returns a job ID for later retrieval.",
+            method: "POST",
+            path: "/api/personal-data-vault/tokenizeAsync",
+            params: [{ name: 'an', in: 'query', description: 'The account name making the request.', required: true, schema: { type: 'string' }, example: 'ambientecrm' }],
+            body: {
+                description: 'The data to tokenize, the data subject, and the Time-To-Live (TTL).',
+                required: true,
+                schema: `{
+    "data": {
+        "name": "Gustavo A.",
+        "ip": "127.0.0.1",
+        "address": {
+            "strt": "Rua dos bobos",
+            "number": 0
+        }
+    },
+    "dataSubject": "gustavo.alves@vtex.com",
+    "ttl": "5y"
+}`
+            },
+            response: `{
+    "jobId": "287758fc-4cbc-4ba4-8043-9111e3a383d4"
+}`
+        },
+        getAsyncToken: {
+            group: "Tokenization",
+            title: "Retrieve tokens from job (async)",
+            description: "Retrieves the result of an asynchronous tokenization job using the job ID.",
+            method: "GET",
+            path: "/api/personal-data-vault/tokenizeAsync/{jobId}",
+            params: [
+                { name: 'an', in: 'query', description: 'The account name making the request.', required: true, schema: { type: 'string' }, example: 'ambientecrm' },
+                { name: 'jobId', in: 'path', description: 'The ID of the asynchronous job.', required: true, schema: { type: 'string' }, example: '287758fc-4cbc-4ba4-8043-9111e3a383d4' }
+            ],
+            response: `{
+    "jobStatus": "completed",
+    "tokens": {
+        "name": "pdv_3fd2d742",
+        "ip": "pdv_46697908",
+        "address": {
+            "strt": "pdv_213320ff",
+            "number": "pdv_7ee2e730"
+        }
+    },
+    "fingerprints": {
+        "name": "fp_2da9043e",
+        "ip": "fp_214c1208",
+        "address": {
+            "strt": "fp_2d0301c1",
+            "number": "fp_30"
+        }
+  },
+    "expirationDate": "2030-03-26T00:00:00Z"
+}`
+        },
+        detokenize: {
+            group: "Detokenization",
+            title: "Retrieve open information from tokens",
+            description: "Retrieves the original raw data from a set of tokens. (Note: This is a mock response as we don't store the original data in this prototype).",
+            method: "POST",
+            path: "/api/personal-data-vault/detokenize",
+            params: [{ name: 'an', in: 'query', description: 'The account name making the request.', required: true, schema: { type: 'string' }, example: 'ambientecrm' }],
+            body: {
+                description: "A JSON object containing the tokens to be detokenized.",
+                required: true,
+                schema: `{
+    "data": {
+        "name": "pdv_3fd2d742",
+        "ip": "pdv_46697908",
+        "address": {
+            "strt": "pdv_213320ff",
+            "number": "pdv_7ee2e730"
+        }
+    }
+}`
+            },
+            response: `{
+    "data": {
+        "name": "Gustavo A.",
+        "ip": "127.0.21.1",
+        "address": {
+            "strt": "Rua dos bobos",
+            "number": 0
+        }
+    }
+}`
+        },
+        fingerprinting: {
+            group: "Fingerprinting",
+            title: "Get a fingerprint from open data",
+            description: "Generates a deterministic token (fingerprint) from data without considering any context (account or data subject).",
+            method: "POST",
+            path: "/api/personal-data-vault/fingerprinting",
+            params: [{ name: 'an', in: 'query', description: 'The account name making the request.', required: true, schema: { type: 'string' }, example: 'ambientecrm' }],
+            body: {
+                description: 'The raw data to be fingerprinted.',
+                required: true,
+                schema: `{
+    "data": {
+        "name": "Gustavo A.",
+        "ip": "127.0.21.1",
+        "address": {
+            "strt": "Rua dos bobos",
+            "number": 0
+        }
+    }
+}`
+            },
+            response: `{}` // Response is now generated dynamically
+        },
+        /*
+        pseudonymize: {
+            group: "Pseudonymization",
+            title: "Get masked data from a token",
+            description: "Masks the underlying data of a token based on a provided strategy. (Note: This is a mock response).",
+            method: "POST",
+            path: "/api/personal-data-vault/pseudonymize",
+            params: [{ name: 'an', in: 'query', description: 'The account name making the request.', required: true, schema: { type: 'string' }, example: 'ambientecrm' }],
+            body: {
+                description: 'The tokens to be masked and the masking strategy for each field.',
+                required: true,
+                schema: `{
+    "data": {
+        "name": "19iausnk398y",
+        "ip": "asidu18937y",
+        "address": {
+            "strt": "12987yc7qeyc",
+            "number": "1928ychbiuee"
+        },
+        "email": "98sdfjo8jh"
+    },
+    "strategy": {
+        "name": "default",
+        "ip": "ip_regional_mask",
+        "address": {
+            "strt": "default",
+            "number": "default"
+        },
+        "email": "email_domain_mask"
+    }
+}`
+            },
+            response: `{
+    "data": {
+        "name": "G****** A*",
+        "ip": "127.0.0.0",
+        "address": {
+            "strt": "R** d** b****",
+            "number": "*"
+        },
+        "email": "*******@vtex.com"
+    }
+}`
+        },
+        */
+        retrieveDSR: {
+            group: "Data Subject Rights",
+            title: "Retrieve User Data",
+            description: "Complies with data subject rights to retrieve all personal data associated with a specific data subject. (Note: This is a mock response).",
+            method: "POST",
+            path: "/api/personal-data-vault/data-subject-rights/retrieve",
+            params: [{ name: 'an', in: 'query', description: 'The account name making the request.', required: true, schema: { type: 'string' }, example: 'ambientecrm' }],
+            body: {
+                description: 'The identifier for the data subject whose data is being requested.',
+                required: true,
+                schema: `{
+    "data_subject": "gustavo.alves@vtex.com"
+}`
+            },
+            response: `{
+    "data": {
+        "19iausnk398y": "Gustavo A.",
+        "asidu18937y": "127.0.21.1",
+        "12987yc7qeyc": "Rua dos bobos",
+        "1928ychbiuee": 0
+    }
+}`
+        },
+        deleteDSR: {
+            group: "Data Subject Rights",
+            title: "Delete User Data",
+            description: "Complies with data subject rights to erase all personal data associated with a specific data subject. (Note: This is a mock response).",
+            method: "DELETE",
+            path: "/api/personal-data-vault/data-subject-rights/delete",
+            params: [{ name: 'an', in: 'query', description: 'The account name making the request.', required: true, schema: { type: 'string' }, example: 'ambientecrm' }],
+            body: {
+                description: 'The identifier for the data subject whose data is being erased.',
+                required: true,
+                schema: `{
+    "data_subject": "gustavo.alves@vtex.com"
+}`
+            },
+            response: `{
+    "deletedTokens": [
+        "19iausnk398y",
+        "asidu18937y",
+        "12987yc7qeyc",
+        "1928ychbiuee"
+    ]
+}`
+        }
+    };
+
+    const apiNav = document.getElementById('api-nav');
+    const apiContent = document.getElementById('api-content');
+    let lastJobId = '287758fc-4cbc-4ba4-8043-9111e3a383d4'; // To simulate async flow
+
+    // --- UTILITY FUNCTIONS ---
+    const formatJson = (jsonString) => {
+        try {
+            const parsed = JSON.parse(jsonString);
+            return JSON.stringify(parsed, null, 2);
+        } catch (e) {
+            return jsonString; // Return as is if not valid JSON
+        }
+    };
+
+    const getMethodClass = (method) => {
+        switch (method.toUpperCase()) {
+            case 'POST': return 'method-post';
+            case 'GET': return 'method-get';
+            case 'DELETE': return 'method-delete';
+            default: return 'bg-gray-500';
+        }
+    };
+    
+    // --- DYNAMIC CONTENT RENDERING ---
+    const renderApiContent = (key) => {
+        const endpoint = apiData[key];
+        if (!endpoint) return;
+
+        let paramsHtml = '';
+        if (endpoint.params && endpoint.params.length > 0) {
+            paramsHtml = `<h4 class="text-lg font-semibold text-gray-300 mt-6 mb-2">Parameters</h4>
+            <div class="rounded-lg border border-gray-700">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-800/50">
+                        <tr>
+                            <th class="p-3 text-left font-semibold">Name</th>
+                            <th class="p-3 text-left font-semibold">In</th>
+                            <th class="p-3 text-left font-semibold">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${endpoint.params.map(p => `
+                            <tr class="border-t border-gray-700/50">
+                                <td class="p-3">
+                                    <code class="bg-gray-700 text-amber-400 rounded px-1.5 py-0.5 text-xs">${p.name}</code>
+                                    ${p.required ? '<span class="text-red-400">*</span>' : ''}
+                                    <input type="text" data-param-name="${p.name}" class="mt-1 block w-full bg-gray-800 border border-gray-600 rounded-md p-1.5 text-sm" placeholder="${p.example || ''}">
+                                </td>
+                                <td class="p-3 text-gray-400">${p.in}</td>
+                                <td class="p-3 text-gray-400">${p.description}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>`;
+        }
+
+        let bodyHtml = '';
+        if (endpoint.body) {
+            bodyHtml = `<h4 class="text-lg font-semibold text-gray-300 mt-6 mb-2">Request Body</h4>
+            <p class="text-sm text-gray-400 mb-4">${endpoint.body.description}</p>
+            <div class="bg-gray-800/80 rounded-lg p-4">
+                <textarea id="request-body" class="w-full h-48 bg-gray-900 text-gray-300 p-3 rounded-md border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none resize-none">${formatJson(endpoint.body.schema)}</textarea>
+            </div>`;
+        }
+
+        apiContent.innerHTML = `
+            <div class="flex items-center mb-4">
+                <span class="text-white text-sm font-semibold uppercase rounded-md px-3 py-1 mr-4 ${getMethodClass(endpoint.method)}">${endpoint.method}</span>
+                <h2 class="text-2xl font-bold text-white">${endpoint.title}</h2>
+            </div>
+            <p class="text-gray-400 mb-2">${endpoint.description}</p>
+            <div class="flex items-center bg-gray-800 rounded-md p-3 my-4">
+                <code class="text-green-400 text-sm">${endpoint.path}</code>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Left: Request Configuration -->
+                <div>
+                    ${paramsHtml}
+                    ${bodyHtml}
+                     <button id="execute-btn" class="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">
+                        Execute
+                    </button>
+                </div>
+
+                <!-- Right: Response -->
+                <div>
+                    <h4 class="text-lg font-semibold text-gray-300 mt-6 mb-2">Response</h4>
+                     <div id="response-container" class="bg-gray-800/80 rounded-lg p-4 h-auto min-h-[200px]">
+                        <pre class="h-full"><code id="response-code" class="language-json text-gray-300 text-sm whitespace-pre-wrap"></code></pre>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('execute-btn').addEventListener('click', () => executeRequest(key));
+    };
+
+    // --- SIMULATION LOGIC ---
+    const executeRequest = (key) => {
+        const endpoint = apiData[key];
+        const responseCodeEl = document.getElementById('response-code');
+        const responseContainer = document.getElementById('response-container');
+        const requestBodyEl = document.getElementById('request-body');
+
+        responseCodeEl.textContent = 'Executing...';
+        responseContainer.classList.remove('bg-green-900/30', 'border-green-500/50', 'bg-red-900/30', 'border-red-500/50');
+        responseContainer.classList.add('border-transparent');
+
+        setTimeout(() => {
+            let response;
+            let bodyData;
+            try {
+                if (requestBodyEl) {
+                    bodyData = JSON.parse(requestBodyEl.value);
+                }
+            } catch (e) {
+                responseCodeEl.textContent = `Error parsing JSON body: ${e.message}`;
+                responseContainer.classList.add('bg-red-900/30', 'border', 'border-red-500/50');
+                return;
+            }
+
+            // Recursive function to process nested objects or simple values
+            const processData = (data, subject, account, mode) => {
+                if (typeof data === 'object' && data !== null) {
+                    const result = {};
+                    for (const prop in data) {
+                        result[prop] = processData(data[prop], subject, account, mode);
+                    }
+                    return result;
+                } else {
+                    if (mode === 'tokenize') {
+                        return generateSimpleHash(data, subject, account);
+                    } else { // fingerprint
+                        return generateFingerprint(data);
+                    }
+                }
+            };
+            
+            const accountParam = document.querySelector('[data-param-name="an"]');
+
+            switch (key) {
+                case 'tokenize':
+                case 'tokenizeAsync':
+                    const account = accountParam ? accountParam.value : '';
+                    const dataSubject = bodyData.dataSubject;
+                    if (!account || !dataSubject) {
+                        responseCodeEl.textContent = 'Error: Account name (an) and dataSubject must be provided.';
+                        responseContainer.classList.add('bg-red-900/30', 'border', 'border-red-500/50');
+                        return;
+                    }
+
+                    const tokens = processData(bodyData.data, dataSubject, account, 'tokenize');
+                    const fingerprints = processData(bodyData.data, dataSubject, account, 'fingerprint');
+                    
+                    if (key === 'tokenizeAsync') {
+                        lastJobId = crypto.randomUUID();
+                        console.log(`Job ${lastJobId} created with data:`, { tokens, fingerprints });
+                        response = { jobId: lastJobId };
+                    } else {
+                        response = {
+                            tokens,
+                            fingerprints,
+                            expirationDate: new Date(new Date().setFullYear(new Date().getFullYear() + 5)).toISOString()
+                        };
+                    }
+                    break;
+
+                case 'fingerprinting':
+                     const fp_account = accountParam ? accountParam.value : '';
+                     if (!fp_account) {
+                        responseCodeEl.textContent = 'Error: Account name (an) must be provided.';
+                        responseContainer.classList.add('bg-red-900/30', 'border', 'border-red-500/50');
+                        return;
+                    }
+                    response = {
+                        fingerprints: processData(bodyData.data, null, null, 'fingerprint')
+                    };
+                    break;
+                
+                case 'detokenize':
+                    const detokenize_account = accountParam ? accountParam.value : '';
+                    if(!detokenize_account) {
+                        responseCodeEl.textContent = 'Error: Account name (an) query parameter is required.';
+                        responseContainer.classList.add('bg-red-900/30', 'border', 'border-red-500/50');
+                        return;
+                    }
+                    response = JSON.parse(endpoint.response);
+                    break;
+
+                default:
+                    response = JSON.parse(endpoint.response);
+            }
+
+            responseCodeEl.textContent = JSON.stringify(response, null, 2);
+            responseContainer.classList.add('bg-green-900/30', 'border', 'border-green-500/50');
+        }, 500);
+    };
+    
+    // --- INITIALIZATION ---
+    const initNav = () => {
+        const groupedBy = Object.entries(apiData).reduce((acc, [key, val]) => {
+            if (val) { // Check if the endpoint exists (it might be commented out)
+                (acc[val.group] = acc[val.group] || []).push({key, ...val});
+            }
+            return acc;
+        }, {});
+
+        let navHtml = '';
+        for (const group in groupedBy) {
+            navHtml += `<h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mt-6 mb-3">${group}</h3>`;
+            navHtml += '<ul class="space-y-1">';
+            groupedBy[group].forEach(endpoint => {
+                navHtml += `
+                    <li>
+                        <a href="#" class="flex items-center p-2 text-gray-300 rounded-md hover:bg-gray-700/50 transition-colors duration-200" data-api-key="${endpoint.key}">
+                           <span class="w-16 text-xs text-center font-bold uppercase rounded-md px-2 py-0.5 mr-3 ${getMethodClass(endpoint.method)}">${endpoint.method}</span>
+                           <span class="text-sm">${endpoint.title}</span>
+                        </a>
+                    </li>`;
+            });
+            navHtml += '</ul>';
+        }
+        apiNav.innerHTML = navHtml;
+
+        document.querySelectorAll('#api-nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('#api-nav a').forEach(l => l.classList.remove('bg-gray-700'));
+                link.classList.add('bg-gray-700');
+                renderApiContent(link.dataset.apiKey);
+            });
+        });
+    };
+
+    // Start the app
+    initNav();
+
+</script>
+</body>
+</html>
