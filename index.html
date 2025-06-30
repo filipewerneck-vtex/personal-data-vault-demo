@@ -484,7 +484,7 @@
         // --- Navigation Logic ---
         navRail.addEventListener('click', (event) => {
             const targetNavItem = event.target.closest('.nav-item');
-            if (!targetNavItem) return;
+            if (!targetNavItem || targetNavItem.id=='nav-dev-portal-link') return;
 
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             targetNavItem.classList.add('active');
