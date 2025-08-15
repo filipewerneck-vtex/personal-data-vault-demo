@@ -37,8 +37,13 @@
             overflow-y: scroll;
         }
         .table-container {
-            height: 250px; 
+            height: 200px; 
             overflow-y: auto;
+        }
+        .audit-log-container {
+             height: 140px;
+             overflow-y: auto;
+             background-color: var(--balancing);
         }
         .shipping-label {
             min-height: 150px;
@@ -90,9 +95,6 @@
     <!-- Navigation Rail -->
     <aside class="w-24 flex-shrink-0 flex flex-col items-center justify-center">
         <nav id="nav-rail" class="w-full flex flex-col items-center p-2 space-y-2 ml-4">
-            <!-- <div class="h-16 flex items-center justify-center -mt-16">
-                <h2 class="text-xl font-bold text-[--primary]">Cases</h2>
-            </div> -->
             <!-- Navigation Item 1: Checkout -->
             <a href="#" id="nav-checkout" class="nav-item flex flex-col items-center justify-center p-2 w-full rounded-lg text-center active" aria-current="page">
                 <div class="icon-container flex items-center justify-center w-16 h-8 rounded-full">
@@ -133,7 +135,7 @@
                 <div class="icon-container flex items-center justify-center w-16 h-8 rounded-full">
                   <span class="material-symbols-outlined text-2xl">terminal</span>
                </div>
-               <span class="label text-xs mt-1">API</span>
+               <span class="label text-xs mt-1">Dev Portal</span>
            </a>
         </nav>
     </aside>
@@ -146,7 +148,7 @@
                 <header class="text-center mb-10">
                     <h1 class="text-3xl font-bold">Personal Data Vault</h1>
                     <p class="text-md text-[--secondary-light-1] mt-2">Use Case 1: Tokenization at Checkout</p>
-                    <a id="vision-chip" href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/GDocs_Favicon_Recreation.png" style="width: 16px" class="inline-block mr-1"/><span>Personal Data Vault product vision</span></a>
+                    <a id="vision-chip" target="_blank" href="https://docs.google.com/document/d/107xQe58Z1AiRxUqvpF9U7bKDouEJKw3NGiIXVoExQyo/edit?usp=sharing"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/GDocs_Favicon_Recreation.png" style="width: 16px" class="inline-block mr-1"/><span>Personal Data Vault product vision</span></a>
                 </header>
 
                 <div class="flex flex-col md:flex-row gap-8">
@@ -182,15 +184,20 @@
                              <h2 class="text-2xl font-semibold">Data Flow</h2>
                              <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
                         </div>
-                        <div class="mb-8">
+                        <div class="mb-4">
                             <h3 class="text-xl font-semibold mb-3 text-[--primary]">1. Personal Data Vault</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">Securely stores raw PII, a context-aware token, and a context-less fingerprint.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Fingerprint</th></tr></thead><tbody id="vault-db-checkout" class="bg-white divide-y"></tbody></table></div>
                         </div>
-                        <div>
+                        <div class="mb-4">
                             <h3 class="text-xl font-semibold mb-3 text-[--secondary]">2. Orders Database</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">Stores searchable fingerprints alongside the tokens for each relevant field.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Fingerprint</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address Token</th></tr></thead><tbody id="orders-db-checkout" class="bg-white divide-y"></tbody></table></div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-500">3. Audit Log</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">All interactions with the Vault are logged for compliance and security.</p>
+                            <div id="audit-log-checkout" class="audit-log-container border rounded-lg p-3 space-y-2 text-sm"></div>
                         </div>
                     </div>
                 </div>
@@ -203,6 +210,7 @@
                 <header class="text-center mb-10">
                     <h1 class="text-3xl font-bold">Personal Data Vault</h1>
                     <p class="text-md text-[--secondary-light-1] mt-2">Use Case 2: Detokenization for Order Fulfillment</p>
+                    <a id="vision-chip" target="_blank" href="https://docs.google.com/document/d/107xQe58Z1AiRxUqvpF9U7bKDouEJKw3NGiIXVoExQyo/edit?usp=sharing"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/GDocs_Favicon_Recreation.png" style="width: 16px" class="inline-block mr-1"/><span>Personal Data Vault product vision</span></a>
                 </header>
 
                 <div class="flex flex-col md:flex-row gap-8">
@@ -233,15 +241,20 @@
                              <h2 class="text-2xl font-semibold">Data Flow</h2>
                              <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
                         </div>
-                        <div class="mb-8">
+                        <div class="mb-4">
                             <h3 class="text-xl font-semibold mb-3 text-[--secondary]">1. Orders Database</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">The fulfillment system queries the orders database and receives tokenized information for the selected order.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Fingerprint</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address Token</th></tr></thead><tbody id="orders-db-fulfillment" class="bg-white divide-y"></tbody></table></div>
                         </div>
-                        <div>
+                        <div class="mb-4">
                             <h3 class="text-xl font-semibold mb-3 text-[--primary]">2. Personal Data Vault</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">To create the shipping label, the system requests the detokenization of the Name and Address tokens from the Vault.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Fingerprint</th></tr></thead><tbody id="vault-db-fulfillment" class="bg-white divide-y"></tbody></table></div>
+                        </div>
+                         <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-500">3. Audit Log</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">All interactions with the Vault are logged for compliance and security.</p>
+                            <div id="audit-log-fulfillment" class="audit-log-container border rounded-lg p-3 space-y-2 text-sm"></div>
                         </div>
                     </div>
                 </div>
@@ -254,6 +267,7 @@
                 <header class="text-center mb-10">
                     <h1 class="text-3xl font-bold">Personal Data Vault</h1>
                     <p class="text-md text-[--secondary-light-1] mt-2">Use Case 3: Data Subject Rights</p>
+                    <a id="vision-chip" target="_blank" href="https://docs.google.com/document/d/107xQe58Z1AiRxUqvpF9U7bKDouEJKw3NGiIXVoExQyo/edit?usp=sharing"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/GDocs_Favicon_Recreation.png" style="width: 16px" class="inline-block mr-1"/><span>Personal Data Vault product vision</span></a>
                 </header>
 
                 <div class="flex flex-col md:flex-row gap-8">
@@ -290,15 +304,20 @@
                              <h2 class="text-2xl font-semibold">Data Flow</h2>
                              <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
                         </div>
-                        <div class="mb-8">
+                        <div class="mb-4">
                             <h3 class="text-xl font-semibold mb-3 text-[--primary]">1. Personal Data Vault</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">The system finds all records for the data subject to either list or mask their information.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Fingerprint</th></tr></thead><tbody id="vault-db-dsr" class="bg-white divide-y"></tbody></table></div>
                         </div>
-                        <div>
+                        <div class="mb-4">
                             <h3 class="text-xl font-semibold mb-3 text-[--secondary]">2. Orders Database</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">The orders database remains unchanged as it contains no raw PII.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Fingerprint</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address Token</th></tr></thead><tbody id="orders-db-dsr" class="bg-white divide-y"></tbody></table></div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-500">3. Audit Log</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">All interactions with the Vault are logged for compliance and security.</p>
+                            <div id="audit-log-dsr" class="audit-log-container border rounded-lg p-3 space-y-2 text-sm"></div>
                         </div>
                     </div>
                 </div>
@@ -311,6 +330,7 @@
                 <header class="text-center mb-10">
                     <h1 class="text-3xl font-bold">Personal Data Vault</h1>
                     <p class="text-md text-[--secondary-light-1] mt-2">Use Case 4: PII Search Limitations</p>
+                    <a id="vision-chip" target="_blank" href="https://docs.google.com/document/d/107xQe58Z1AiRxUqvpF9U7bKDouEJKw3NGiIXVoExQyo/edit?usp=sharing"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/GDocs_Favicon_Recreation.png" style="width: 16px" class="inline-block mr-1"/><span>Personal Data Vault product vision</span></a>
                 </header>
 
                 <div class="flex flex-col md:flex-row gap-8">
@@ -351,20 +371,25 @@
                              <h2 class="text-2xl font-semibold">Data Flow</h2>
                              <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
                         </div>
-                        <div class="mb-6">
+                        <div class="mb-4">
                             <h3 class="text-xl font-semibold mb-3 text-[--primary]">1. Input to Fingerprint Transformation</h3>
                              <p class="text-sm text-[--secondary-light-1] mb-3">The search term is transformed into a context-less fingerprint.</p>
-                            <div class="border rounded-lg p-2"><table class="min-w-full"><tbody id="token-transformation-search"></tbody></table></div>
+                            <div class="border rounded-lg p-2" style="height: 60px"><table class="min-w-full"><tbody id="token-transformation-search"></tbody></table></div>
                         </div>
-                        <div class="mb-6">
+                        <div class="mb-4">
                             <h3 class="text-xl font-semibold mb-3 text-[--secondary]">2. Orders Database</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">The database is queried with an exact match on the Name Fingerprint to find relevant orders.</p>
-                            <div class="table-container border rounded-lg" style="height: 180px;"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Fingerprint</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address Token</th></tr></thead><tbody id="orders-db-search" class="bg-white divide-y"></tbody></table></div>
+                            <div class="table-container border rounded-lg" style="height: 140px;"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Fingerprint</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address Token</th></tr></thead><tbody id="orders-db-search" class="bg-white divide-y"></tbody></table></div>
                         </div>
-                        <div>
+                        <div class="mb-4">
                             <h3 class="text-xl font-semibold mb-3 text-[--secondary]">3. Personal Data Vault</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">The tokens from the found orders can be traced back to the Vault. Detokenization is not possible from a fingerprint.</p>
-                            <div class="table-container border rounded-lg" style="height: 180px;"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Fingerprint</th></tr></thead><tbody id="vault-db-search" class="bg-white divide-y"></tbody></table></div>
+                            <div class="table-container border rounded-lg" style="height: 140px;"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Fingerprint</th></tr></thead><tbody id="vault-db-search" class="bg-white divide-y"></tbody></table></div>
+                        </div>
+                         <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-500">4. Audit Log</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">All interactions with the Vault are logged for compliance and security.</p>
+                            <div id="audit-log-search" class="audit-log-container border rounded-lg p-3 space-y-2 text-sm"></div>
                         </div>
                     </div>
                 </div>
@@ -377,6 +402,7 @@
                 <header class="text-center mb-10">
                     <h1 class="text-3xl font-bold">Personal Data Vault</h1>
                     <p class="text-md text-[--secondary-light-1] mt-2">Use Case 5: Partial Search</p>
+                    <a id="vision-chip" target="_blank" href="https://docs.google.com/document/d/107xQe58Z1AiRxUqvpF9U7bKDouEJKw3NGiIXVoExQyo/edit?usp=sharing"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/GDocs_Favicon_Recreation.png" style="width: 16px" class="inline-block mr-1"/><span>Personal Data Vault product vision</span></a>
                 </header>
 
                 <div class="flex flex-col md:flex-row gap-8">
@@ -419,15 +445,20 @@
                              <h2 class="text-2xl font-semibold">Data Flow</h2>
                              <button class="seed-data-btn bg-[--secondary-light-3] text-[--secondary-light-1] px-3 py-1 rounded hover:bg-[#d8dbe0] text-sm">Seed Dummy Data</button>
                         </div>
-                        <div class="mb-8">
+                        <div class="mb-4">
                             <h3 class="text-xl font-semibold mb-3 text-[--secondary]">1. Orders Database</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">The system first queries its entire orders database.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Order ID</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Items</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Name Fingerprint</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Email Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Address Token</th></tr></thead><tbody id="orders-db-partial-search" class="bg-white divide-y"></tbody></table></div>
                         </div>
-                        <div>
+                        <div class="mb-4">
                             <h3 class="text-xl font-semibold mb-3 text-[--primary]">2. Personal Data Vault</h3>
                             <p class="text-sm text-[--secondary-light-1] mb-3">A bulk request is made to detokenize all names, exposing the raw data for client-side search.</p>
                             <div class="table-container border rounded-lg"><table class="min-w-full divide-y"><thead class="bg-gray-50 sticky top-0 z-1"><tr><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Store</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Data Subject</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Raw Data</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Token</th><th class="px-4 py-3 text-left text-xs font-medium text-[--secondary-light-1] uppercase">Fingerprint</th></tr></thead><tbody id="vault-db-partial-search" class="bg-white divide-y"></tbody></table></div>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-3 text-gray-500">3. Audit Log</h3>
+                            <p class="text-sm text-[--secondary-light-1] mb-3">All interactions with the Vault are logged for compliance and security.</p>
+                            <div id="audit-log-partial-search" class="audit-log-container border rounded-lg p-3 space-y-2 text-sm"></div>
                         </div>
                     </div>
                 </div>
@@ -439,6 +470,7 @@
         // --- Application State ---
         let vaultData = [];
         let ordersData = [];
+        let auditLogData = [];
 
         // --- DOM Element Selection ---
         const navRail = document.getElementById('nav-rail');
@@ -462,6 +494,13 @@
             dsr: document.getElementById('orders-db-dsr'),
             search: document.getElementById('orders-db-search'),
             partialSearch: document.getElementById('orders-db-partial-search')
+        };
+        const allAuditLogs = {
+            checkout: document.getElementById('audit-log-checkout'),
+            fulfillment: document.getElementById('audit-log-fulfillment'),
+            dsr: document.getElementById('audit-log-dsr'),
+            search: document.getElementById('audit-log-search'),
+            partialSearch: document.getElementById('audit-log-partial-search')
         };
         
         // Use Case Specific Elements
@@ -528,6 +567,12 @@
             }
             return `fp_${Math.abs(hash).toString(16).slice(0, 8)}`;
         }
+
+        // --- Auditing Function ---
+        function logAuditEvent(system, action) {
+            const timestamp = new Date().toLocaleString('en-US', { hour12: false });
+            auditLogData.unshift({ timestamp, system, action });
+        }
         
         // --- Data Rendering Functions ---
         function renderTable(tbodyElement, data, rowRenderer) {
@@ -538,10 +583,25 @@
             });
         }
 
+        function renderAuditLog(containerElement) {
+            containerElement.innerHTML = '';
+            if (auditLogData.length === 0) {
+                containerElement.innerHTML = '<span class="text-[--secondary-light-1]">No events logged yet.</span>';
+                return;
+            }
+            auditLogData.forEach(({ timestamp, system, action }) => {
+                const logEntry = document.createElement('div');
+                logEntry.className = 'font-mono text-xs';
+                logEntry.innerHTML = `<span class="text-gray-400">${timestamp}</span> <span class="text-[--primary] font-semibold">[${system}]</span> <span class="text-[--secondary-light-1]">${action}</span>`;
+                containerElement.appendChild(logEntry);
+            });
+        }
+
         // --- Checkout View Logic ---
         function renderCheckoutView() {
             renderTable(allVaultDbs.checkout, vaultData, createVaultRow);
             renderTable(allOrdersDbs.checkout, ordersData, createOrderRow);
+            renderAuditLog(allAuditLogs.checkout);
         }
 
         checkoutForm.addEventListener('submit', function(event) {
@@ -562,8 +622,11 @@
             const orderId = `ORD-${Date.now().toString().slice(-6)}`;
 
             vaultData.push({ store: account, dataSubject: email, rawData: name, token: nameToken, fingerprint: nameFingerprint });
+            logAuditEvent('Checkout System', `Tokenized Name for ${email}`);
             vaultData.push({ store: account, dataSubject: email, rawData: email, token: emailToken, fingerprint: emailFingerprint });
+            logAuditEvent('Checkout System', `Tokenized Email for ${email}`);
             vaultData.push({ store: account, dataSubject: email, rawData: address, token: addressToken, fingerprint: addressFingerprint });
+            logAuditEvent('Checkout System', `Tokenized Address for ${email}`);
             
             ordersData.push({ orderId, store: account, items: ['t-shirt-white', 'socks-pair'], nameToken, nameFingerprint, emailToken, addressToken });
 
@@ -593,6 +656,7 @@
         function renderFulfillmentView() {
             renderTable(allVaultDbs.fulfillment, vaultData, createVaultRow);
             renderTable(allOrdersDbs.fulfillment, ordersData, createOrderRow);
+            renderAuditLog(allAuditLogs.fulfillment);
             
             fulfillmentOrdersDbBody.innerHTML = '';
             shippingLabel.innerHTML = '<span class="text-[--secondary-light-1]">Select an order to generate a label</span>';
@@ -611,37 +675,43 @@
             if (!event.target.classList.contains('create-label-btn')) return;
             const orderId = event.target.dataset.orderId;
             const order = ordersData.find(o => o.orderId === orderId);
-            const tokensToHighlight = [order.nameToken, order.addressToken];
-
-            allVaultDbs.fulfillment.querySelectorAll('tr').forEach(row => {
-                row.classList.toggle('shadow-lg', tokensToHighlight.includes(row.dataset.token));
-                row.classList.toggle('opacity-20', !tokensToHighlight.includes(row.dataset.token));
-            });
             
-            allOrdersDbs.fulfillment.querySelectorAll('tr').forEach(row => {
-                row.classList.toggle('shadow-lg', row.dataset.orderId === orderId);
-                row.classList.toggle('opacity-20', row.dataset.orderId !== orderId);
-            });
-
-            const name = detokenize(order.nameToken);
-            const address = detokenize(order.addressToken);
+            const name = detokenize(order.nameToken, `Fulfillment System`, `Name for Order ${orderId}`);
+            const address = detokenize(order.addressToken, `Fulfillment System`, `Address for Order ${orderId}`);
 
             if (name && address) {
                  shippingLabel.innerHTML = `<div class="text-left p-4"><p class="font-bold text-lg">${name}</p><p>${address}</p></div>`;
             } else {
                  shippingLabel.innerHTML = `<div class="text-left p-4 text-[--primary]"><p>Could not retrieve shipping information.</p></div>`;
             }
+            
+            renderAuditLog(allAuditLogs.fulfillment);
+
+            const tokensToHighlight = [order.nameToken, order.addressToken];
+            allVaultDbs.fulfillment.querySelectorAll('tr').forEach(row => {
+                row.classList.toggle('shadow-lg', tokensToHighlight.includes(row.dataset.token));
+                row.classList.toggle('opacity-20', !tokensToHighlight.includes(row.dataset.token));
+            });
+            allOrdersDbs.fulfillment.querySelectorAll('tr').forEach(row => {
+                row.classList.toggle('shadow-lg', row.dataset.orderId === orderId);
+                row.classList.toggle('opacity-20', row.dataset.orderId !== orderId);
+            });
         });
         
-        function detokenize(tokenToFind) {
+        function detokenize(tokenToFind, system, reason) {
             const vaultEntry = vaultData.find(entry => entry.token === tokenToFind);
-            return vaultEntry ? vaultEntry.rawData : null;
+            if (vaultEntry) {
+                logAuditEvent(system, `Detokenized ${reason}`);
+                return vaultEntry.rawData;
+            }
+            return null;
         }
 
         // --- Data Rights Logic ---
         function renderDataRightsView() {
             renderTable(allVaultDbs.dsr, vaultData, createVaultRow);
             renderTable(allOrdersDbs.dsr, ordersData, createOrderRow);
+            renderAuditLog(allAuditLogs.dsr);
             dsrResults.innerHTML = '<span class="text-[--secondary-light-1]">Submit a request to see data.</span>';
         }
 
@@ -663,10 +733,12 @@
                     list.appendChild(listItem);
                 });
                 dsrResults.appendChild(list);
+                logAuditEvent('Data Rights System', `Listed PII for ${email}`);
             } else {
                 dsrResults.innerHTML = '<span class="text-[--secondary-light-1]">No data found for this email in this store.</span>';
             }
 
+            renderAuditLog(allAuditLogs.dsr);
             allVaultDbs.dsr.querySelectorAll('tr').forEach(row => {
                  const isMatch = row.dataset.subject === email && row.dataset.store === store;
                  row.classList.toggle('shadow-lg', isMatch);
@@ -679,12 +751,21 @@
             const store = dsrAccountSelector.value;
             if (!email) return;
 
+            let masked = false;
             vaultData.forEach(entry => {
                 if (entry.dataSubject === email && entry.store === store) {
                     entry.rawData = maskData(entry.rawData);
+                    masked = true;
                 }
             });
-            dsrResults.innerHTML = `<span class="text-[--primary]">Masking request processed for ${email} in store ${store}.</span>`;
+
+            if (masked) {
+                logAuditEvent('Data Rights System', `Processed "Forget Me" request for ${email}`);
+                dsrResults.innerHTML = `<span class="text-[--primary]">Masking request processed for ${email} in store ${store}.</span>`;
+            } else {
+                 dsrResults.innerHTML = '<span class="text-[--secondary-light-1]">No data found to mask.</span>';
+            }
+            
             renderDataRightsView();
              allVaultDbs.dsr.querySelectorAll('tr').forEach(row => {
                  if(row.dataset.subject === email && row.dataset.store === store) {
@@ -706,6 +787,7 @@
         function renderSearchView() {
             renderTable(allVaultDbs.search, vaultData, createVaultRow);
             renderTable(allOrdersDbs.search, ordersData, createOrderRow);
+            renderAuditLog(allAuditLogs.search);
             searchResultsDb.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">Enter a name to search for orders.</td></tr>';
             tokenTransformationSearch.innerHTML = '';
         }
@@ -723,7 +805,7 @@
             searchResultsDb.innerHTML = '';
             if (foundOrders.length > 0) {
                  foundOrders.forEach(order => {
-                    const address = detokenize(order.addressToken) || 'N/A';
+                    const address = detokenize(order.addressToken, 'Order Search System', `Address for Order ${order.orderId}`) || 'N/A';
                     const newRow = document.createElement('tr');
                     newRow.innerHTML = `<td class="px-4 py-3 text-sm">${order.orderId}</td><td class="px-4 py-3 text-sm">${order.store}</td><td class="px-4 py-3 text-sm text-[--secondary-light-1]">${address}</td>`;
                     searchResultsDb.appendChild(newRow);
@@ -732,6 +814,8 @@
                  searchResultsDb.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">No orders found for this name.</td></tr>';
             }
            
+            renderAuditLog(allAuditLogs.search);
+
             const addressTokensToHighlight = foundOrders.map(o => o.addressToken);
             allVaultDbs.search.querySelectorAll('tr').forEach(row => {
                  const isMatch = addressTokensToHighlight.includes(row.dataset.token);
@@ -751,9 +835,9 @@
          function renderPartialSearchView() {
             renderTable(allVaultDbs.partialSearch, vaultData, createVaultRow);
             renderTable(allOrdersDbs.partialSearch, ordersData, createOrderRow);
+            renderAuditLog(allAuditLogs.partialSearch);
             partialSearchResultsDb.innerHTML = '<tr><td colspan="3" class="text-center p-4 text-[--secondary-light-1]">All orders are loaded. Use the search bar above.</td></tr>';
             
-            // Remove any highlighting from previous actions
             allVaultDbs.partialSearch.querySelectorAll('tr').forEach(row => row.classList.remove('shadow-lg', 'opacity-20'));
             allOrdersDbs.partialSearch.querySelectorAll('tr').forEach(row => row.classList.remove('shadow-lg', 'opacity-20'));
         }
@@ -761,14 +845,16 @@
         partialSearchNameInput.addEventListener('keyup', () => {
             const searchTerm = partialSearchNameInput.value.toLowerCase();
             
-            // In a real scenario, this is highly inefficient. Here we simulate it.
             const allOrdersWithDetokenizedNames = ordersData.map(order => {
-                return { ...order, rawName: detokenize(order.nameToken) };
+                const rawName = detokenize(order.nameToken, 'Partial Search System', `Name for Order ${order.orderId}`);
+                return { ...order, rawName: rawName };
             });
 
             const foundOrders = searchTerm 
-                ? allOrdersWithDetokenizedNames.filter(order => order.rawName.toLowerCase().includes(searchTerm))
+                ? allOrdersWithDetokenizedNames.filter(order => order.rawName && order.rawName.toLowerCase().includes(searchTerm))
                 : allOrdersWithDetokenizedNames;
+            
+            renderAuditLog(allAuditLogs.partialSearch);
 
             partialSearchResultsDb.innerHTML = '';
             if (foundOrders.length > 0) {
@@ -787,6 +873,7 @@
         function seedData() {
             vaultData = [];
             ordersData = [];
+            auditLogData = [];
             
             const dummyData = [
                 { name: 'John Smith', email: 'john.smith@example.com', address: '456 Oak Ave, Othertown, USA', account: 'FashionA'},
@@ -804,8 +891,11 @@
                 const orderId = `ORD-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
 
                 vaultData.push({ store: account, dataSubject: email, rawData: name, token: nameToken, fingerprint: nameFingerprint });
+                logAuditEvent('Seed System', `Tokenized Name for ${email}`);
                 vaultData.push({ store: account, dataSubject: email, rawData: email, token: emailToken, fingerprint: emailFingerprint });
+                logAuditEvent('Seed System', `Tokenized Email for ${email}`);
                 vaultData.push({ store: account, dataSubject: email, rawData: address, token: addressToken, fingerprint: addressFingerprint });
+                logAuditEvent('Seed System', `Tokenized Address for ${email}`);
                 ordersData.push({ orderId, store: account, items: ['hat-red', 'scarf-blue'], nameToken, nameFingerprint, emailToken, addressToken });
             });
             
